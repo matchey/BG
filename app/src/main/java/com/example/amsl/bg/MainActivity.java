@@ -788,7 +788,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             team_points.get( player[i].get_team() ).first -= player_points[i];
             team_points.get( player[i].get_team() ).second -= 1;
         }
-        calc_handi();
+        calc_handi(count);
         for(int i=0; i<num; i++){
             player_points[i] += handicap[i];
             player[i].add_point(player_points[i]);
@@ -934,15 +934,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         // 	player[i].show_income_expenditure();
         // }
     }/*}}}*/
-    void calc_handi()/*{{{*/
+    void calc_handi(int count)/*{{{*/
     {
+        if(count==1) {
+            for(int i=1;i<num;i++){
+                player[i].average = 167;
+            }
+        }
         float ave = 0;
         float ave_s = 0;
         float max = player[0].get_ave();
         double ratio = 0;
-        final double w0 = 0.0001;
-        final double r  = 0.25;
-        final double k  = 0.8;
+        final double w0 = 0.7;
+        final double r  = 0.3;
+        final double k  = 0.85;
         for(int i=1;i<num;i++){
             ave = player[i].get_ave();
             if(max < ave){
@@ -953,7 +958,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         for(int i=0; i<num; i++){
             ave = player[i].get_ave();
             ave_s = player[i].getAverage_s();
-            ratio = k / (1 + ((k-w0)/w0)*exp(-r*(ave - ave_s)));
+            // ratio = k / (1 + ((k-w0)/w0)*exp(-r*(ave - ave_s)));
+            ratio = k / (1 + ((k-w0)/w0)*exp(-r*count));
             // ave += (10.0f / 3.00001f) * 3f;
             // ave = (int)ave - (int)ave %10;
             // handicap[i] = (int)max - (int)ave;
@@ -1086,7 +1092,7 @@ class Player implements Serializable
     }/*}}}*/
     float calc_ave(int count)/*{{{*/
     {
-        average = ( (count -1.0f ) * average + points ) / count;
+        average = ( (1.0f*count) * average + points ) / (count + 1);
         average_s = ( (count -1.0f ) * average_s + scratch ) / count;
         return average;
     }/*}}}*/
