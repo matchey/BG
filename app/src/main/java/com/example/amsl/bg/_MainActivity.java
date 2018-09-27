@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     public static Toast toast;
 
-    Player[] player = new Player[20];
+    Player[] player; // = new Player[20]; // Facilitatorの中で動的に確保
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         if(flag) {
             for (int i = 0; i < nperson; i++) {
                 String str = ((EditText) findViewById(i + start_id)).getText().toString();
-                player[i].set_name(str);
+                player[i].setName(str);
             }
             // MyIO.set("");
         }
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         if(flag) {
             for (int i = 0; i < nperson; i++) {
                 String str = ((EditText) findViewById(i + start_id)).getText().toString();
-                player[i].set_points(Integer.parseInt(str));
+                player[i].setScore(Integer.parseInt(str));
             }
         }
         return flag;
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         Cursor cursor;
         for(int i=0; i<nperson; i++) {
             cursor = db.query("personal_data", new String[]{"_id", "name", "result", "ave",
-                    "count", "over_flg"}, "name = ?", new String[]{ player[i].get_name() }, null, null, null);
+                    "count", "over_flg"}, "name = ?", new String[]{ player[i].getName() }, null, null, null);
             List<Float> rec_ave = new ArrayList<Float>();
             List<Integer> rec_cnt = new ArrayList<Integer>();
             List<Integer> rec_res = new ArrayList<Integer>();
@@ -276,10 +276,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     values.put("over_flg", 1);
                 }
                 values.put("count", (game_cnt +1)%60 );
-                db.update("personal_data", values, "name=?", new String[] { player[i].get_name() });
+                db.update("personal_data", values, "name=?", new String[] { player[i].getName() });
             }else{
                 ContentValues values = new ContentValues();
-                values.put("name", player[i].get_name());
+                values.put("name", player[i].getName());
                 values.put("ave", player[i].scratch);
                 values.put("result", last_income);
                 values.put("scr0", player[i].scratch);
@@ -375,15 +375,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     {
         for(int i=0; i<nperson; i++){ //remove latest score
             player[i].add_point(-player_points[i]);
-            team_points.get( player[i].get_team() ).first -= player_points[i];
-            team_points.get( player[i].get_team() ).second -= 1;
+            team_points.get( player[i].getTeam() ).first -= player_points[i];
+            team_points.get( player[i].getTeam() ).second -= 1;
         }
         calc_handi(count);
         for(int i=0; i<nperson; i++){
             player_points[i] += handicap[i];
             player[i].add_point(player_points[i]);
-            team_points.get( player[i].get_team() ).first += player_points[i];
-            team_points.get( player[i].get_team() ).second += 1;
+            team_points.get( player[i].getTeam() ).first += player_points[i];
+            team_points.get( player[i].getTeam() ).second += 1;
         }
     }
 
@@ -423,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             while( score_abs>0 ){
                 for(int i=0; score_abs!=0 && i<nperson ; i++){
                     n = sign+1!=0 ? i : nperson-1-i;
-                    if( player[n].get_team() == entry.getKey() ){
+                    if( player[n].getTeam() == entry.getKey() ){
                         score_abs -= 1;
                         player_inout[n] += sign;
                     }
@@ -460,20 +460,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
         float ave = 0;
         float ave_s = 0;
-        float max = player[0].get_ave();
+        float max = player[0].getAverage();
         double ratio = 0;
         final double w0 = 0.7;
         final double r  = 0.3;
         final double k  = 0.85;
         for(int i=1;i<nperson;i++){
-            ave = player[i].get_ave();
+            ave = player[i].getAverage();
             if(max < ave){
                 max = ave;
             }
         }
         // max = (int)max - (int)max%10;
         for(int i=0; i<nperson; i++){
-            ave = player[i].get_ave();
+            ave = player[i].getAverage();
             ave_s = player[i].getAverage_s();
             ratio = k / (1 + ((k-w0)/w0)*exp(-r*count));
             handicap[i] = (int)(max - (ratio*ave_s + (1.0-ratio)*ave));

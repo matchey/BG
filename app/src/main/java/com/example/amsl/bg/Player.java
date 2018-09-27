@@ -1,41 +1,53 @@
 
 class Player implements Serializable
 {
-    String name;//player name
-    int points;//player's latest score
-    int scratch;//player's latest scratch score
-    int team;//player's team
-    float income_expenditure;//income and expenditure
-    int last_result;//income and expenditure
-    float average; //player's score average(include handicap)
-    float average_s; //player's score average(scratch)
-    int handicap;//player's latest handicap
-    int sum; //player's score sum
+    private String name;			// player's name
+    private int team;				// player's team
+    private int scratch;			// player's latest scratch score
+    private int score;				// player's latest score (include handicap)
+    private int sum_scratch = 0;	// player's scratch sum
+    private int sum = 0; 			// player's score sum
+    private double ave_scratch;		// player's score average (scratch)
+    private double average;			// player's score average (include handicap)
+    private int handicap = 0;		// player's latest handicap
+    private int income_expenditure;	// last income and expenditure
+    private double sum_IE;			// sum of income and expenditure
+	static int game_count = 0;		// count of games
 
-    Player(){ points = 0; scratch = 0; sum = 0; };
-    String get_name(){return name;};
-    int get_points(){return points;};
-    int get_team(){return team;};
-    float get_ave(){return average;};
-    float getAverage_s(){return average_s;};
-    int get_sum(){return sum;};
-    void set_points(int x){ points = x;};
-    void set_name(String x){ name = x; };
-    void set_team(int x){ team = x;};
-    void add_income_expenditure(int x){ income_expenditure += x; };
-    void add_point(int x){ points += x; };
-    void add_sum(int x){ sum += x; };
+    Player()
+	{
+		// scratch = 0;
+		// score = 0;
+		// sum_scratch = 0;
+		// sum = 0;
+		// income_expenditure = 0;
+	}
 
-    int input_point()// throws IOException
-    {
-        return points;
-    }
+    String getName(){ return name; }
+    // int getScore(){ return score; }
+    // int getTeam(){ return team; }
+    double getAverage(){ return average; }
+    double getAveScratch(){ return ave_scratch; }
+    // int getSum(){ return sum; }
+	 
+    void setName(String x){ name = x; }
+    void setTeam(int x){ team = x; }
+    void setHandicap(int x){ handicap = x; }
 
-    float calc_ave(int count)
-    {
-        average = ( (1.0f*count) * average + points ) / (count + 1);
-        average_s = ( (count -1.0f ) * average_s + scratch ) / count;
-        return average;
-    }
+    void setScratch(int x)
+	{
+		scratch = x;
+		score = scratch + handicap;
+		sum_scratch += scratch;
+		sum += score;
+		ave_scratch = 1.0 * sum_scratch / game_count;
+		average = 1.0 * sum / game_count;
+	}
+
+    void setIncomeExpenditure(int x)
+	{
+		income_expenditure = x;
+		sum_IE += income_expenditure;
+	}
 };
 

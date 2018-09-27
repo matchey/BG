@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         getLayoutInflater().inflate(R.layout.edit_add, vg);
                         // 文字設定
                         TableRow tr = (TableRow) vg.getChildAt(i);
-                        String str = String.format(Locale.getDefault(), "input %s's team", player[i].name);
+                        String str = String.format(Locale.getDefault(), "input %s's team", player[i].name); // int にしないとダメ?? 関数でstring -> intに変換しよう  (hoge, foo, bar --> 0, 1, 2)
                         ((EditText) (tr.getChildAt(0))).setHint(str);
                         ((EditText) (tr.getChildAt(0))).setInputType(InputType.TYPE_CLASS_NUMBER);
                         //int etId = getResources().getIdentifier("et","id","com.example.amsl.bowlingamb")
