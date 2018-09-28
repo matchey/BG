@@ -2,10 +2,10 @@
 class Calculator
 {
 	private double rate;
-	// void resetLast
-	// {
-	//     --countしてsum_IEからlast引いて新しいのをセットし直す.
-	// }戻す
+
+	int setRate(int base_rate)
+	{
+	}
 
 	void teamCalc()
 	{
@@ -13,6 +13,15 @@ class Calculator
 
 	void playerCalc()
 	{
+	}
+
+	void calcHandicap()
+	{
+	}
+
+	void resetLastScore()
+	{
+	//     --countしてsum_IEからlast引いて新しいのをセットし直す.
 	}
 };
 

@@ -11,7 +11,7 @@ class Player implements Serializable
     private double average;			// player's score average (include handicap)
     private int handicap = 0;		// player's latest handicap
     private int income_expenditure;	// last income and expenditure
-    private double sum_IE;			// sum of income and expenditure
+    private int sum_IE = 0;			// sum of income and expenditure
 	static int game_count = 0;		// count of games
 
     Player()
