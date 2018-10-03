@@ -8,7 +8,6 @@
 // import android.content.ContentValues;
 // import android.content.DialogInterface;
 // import android.database.Cursor;
-// import android.database.sqlite.SQLiteDatabase;
 // import android.view.Gravity;
 // import android.view.Menu;
 // import android.view.MenuItem;
@@ -33,22 +32,14 @@
 //
 // import android.widget.Button;
 // import android.view.View.OnClickListener;
-// import android.widget.Toast;
 // import java.util.*;
 //
-// import static java.lang.Math.exp;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
-    private InputMethodManager inputMethodManager;
-    private RelativeLayout mainLayout;
-    private SQLiteDatabase db;
-
     public static final int MENU_SELECT_LAST  = 0;
     public static final int MENU_SELECT_TEAM  = 1;
     public static final int MENU_SELECT_RESET = 2;
-
-    public static Toast toast;
 
 	Facilitator process = new Facilitator();
 
@@ -56,21 +47,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
     protected void onCreate(Bundle savedInstanceState) // アプリ初期化
 	{
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.set_player);
-
-        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        mainLayout = (RelativeLayout)findViewById(R.id.backGround);
-
-
-        findViewById(R.id.buttonNum).setOnClickListener(this);
-        //findViewById(R.id.buttonName).setOnClickListener(this);
-        Button name_button = (Button)findViewById(R.id.buttonName);
-        name_button.setVisibility(View.GONE);
+		process.initViews();
     }
 
     @Override
     protected void onPause() // 中断処理
 	{
+		super.onPause(); // 常にスーパクラスは最初に呼ぶ。
+		process.writeDBLast();
     }
 
     public void onClick(View view) // 各ボタンタップ時の挙動

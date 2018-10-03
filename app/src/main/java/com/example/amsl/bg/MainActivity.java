@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     protected void onPause() {
-        super.onPause();  // 常にスーパクラスは最初に呼ぶ。
+        super.onPause();
         //System.out.println("in onPause");
         if(counter>0){
             // インスタンス作成

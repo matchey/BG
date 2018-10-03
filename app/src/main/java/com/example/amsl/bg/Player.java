@@ -1,3 +1,4 @@
+package com.example.amsl.bg;
 
 class Player implements Serializable
 {
@@ -12,7 +13,6 @@ class Player implements Serializable
     private int handicap = 0;		// player's latest handicap
     private int income_expenditure;	// last income and expenditure
     private int sum_IE = 0;			// sum of income and expenditure
-	static int game_count = 0;		// count of games
 
     Player()
 	{
@@ -28,12 +28,13 @@ class Player implements Serializable
     // int getScore(){ return score; }
     double getAverage(){ return average; }
     double getAveScratch(){ return ave_scratch; }
+	int getIncomeExpenditure(){ return income_expenditure; }
 	 
     void setName(String x){ name = x; }
     void setTeam(int x){ team = x; }
     void setHandicap(int x){ handicap = x; }
 
-    void setScratch(int x)
+    void setScratch(int x, int game_count)
 	{
 		scratch = x;
 		score = scratch + handicap;
