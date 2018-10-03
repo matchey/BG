@@ -24,11 +24,10 @@ class Player implements Serializable
 	}
 
     String getName(){ return name; }
+    int getTeam(){ return team; }
     // int getScore(){ return score; }
-    // int getTeam(){ return team; }
     double getAverage(){ return average; }
     double getAveScratch(){ return ave_scratch; }
-    // int getSum(){ return sum; }
 	 
     void setName(String x){ name = x; }
     void setTeam(int x){ team = x; }

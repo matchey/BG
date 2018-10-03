@@ -531,9 +531,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 break;
             case MENU_SELECT_TEAM:
                 Intent intent_team = new Intent(this, TeamActivity.class);
-                intent_team.putExtra("p_NUM",num);
-                intent_team.putExtra("t_NUM",num_team);
-                intent_team.putExtra("PLAYER",player);
+                intent_team.putExtra("p_NUM", nperson);
+                intent_team.putExtra("t_NUM", num_team);
+                intent_team.putExtra("PLAYER", player);
                 //intent_team.putExtra("COUNT",counter);
                 startActivityForResult(intent_team, 0);
                 break;
