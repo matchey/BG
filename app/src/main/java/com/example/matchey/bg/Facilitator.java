@@ -54,11 +54,11 @@ public class Facilitator extends AppCompatActivity
     private Player[] players;
     private Calculator calc = new Calculator();
 
-    private View.OnClickListener ocl;
+    private MainActivity ma;
 
-    void initViews(MainActivity ma)
+    void initViews(MainActivity activity)
     {
-        ocl = ma;
+        ma = activity;
 
         ma.setContentView(R.layout.set_player);
 
@@ -72,7 +72,7 @@ public class Facilitator extends AppCompatActivity
 
     void inputNames()
     {
-        EditText input = (EditText)findViewById(R.id.editNum);
+        EditText input = (EditText)ma.findViewById(R.id.editNum);
         String inputStr = input.getText().toString();
         if(inputStr.length() != 0){
             nplayer = Integer.parseInt(inputStr);
@@ -84,7 +84,7 @@ public class Facilitator extends AppCompatActivity
                     (mainLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             mainLayout.requestFocus();
             // TableLayoutのグループを取得
-            ViewGroup vg = (ViewGroup)findViewById(R.id.layoutName);
+            ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutName);
             for(int i = 0; i < nplayer; ++i){
                 // 行を追加
                 getLayoutInflater().inflate(R.layout.edit_add, vg);
@@ -96,7 +96,7 @@ public class Facilitator extends AppCompatActivity
                 ((EditText)(tr.getChildAt(0))).setInputType(InputType.TYPE_CLASS_TEXT);
                 ((EditText)(tr.getChildAt(0))).setId(ID_BEGIN*ID_NAME + i);
             }
-            Button start_button = (Button)findViewById(R.id.buttonName);
+            Button start_button = (Button)ma.findViewById(R.id.buttonName);
             start_button.setVisibility(View.VISIBLE);
             start_button.setOnClickListener(ocl);
         }
@@ -108,7 +108,7 @@ public class Facilitator extends AppCompatActivity
             players = new Player[nplayer];
             for(int i = 0; i < nplayer; ++i){
                 players[i] = new Player();
-                String str = ((EditText)findViewById(ID_BEGIN*ID_NAME + i)).getText().toString();
+                String str = ((EditText)ma.findViewById(ID_BEGIN*ID_NAME + i)).getText().toString();
                 players[i].setTeam(Integer.parseInt(str));
             }
             inputNumTeam();
@@ -117,28 +117,28 @@ public class Facilitator extends AppCompatActivity
 
     void inputNumTeam()
     {
-        setContentView(R.layout.set_team_auto);
-        mainLayout = (RelativeLayout)findViewById(R.id.backGround);
-        findViewById(R.id.radioManual).setOnClickListener(ocl);
-        findViewById(R.id.radioAuto).setOnClickListener(ocl);
-        findViewById(R.id.buttonTeam).setOnClickListener(ocl);
-        findViewById(R.id.buttonStartAuto).setOnClickListener(ocl);
+        ma.setContentView(R.layout.set_team_auto);
+        mainLayout = (RelativeLayout)ma.findViewById(R.id.backGround);
+        ma.findViewById(R.id.radioManual).setOnClickListener(ocl);
+        ma.findViewById(R.id.radioAuto).setOnClickListener(ocl);
+        ma.findViewById(R.id.buttonTeam).setOnClickListener(ocl);
+        ma.findViewById(R.id.buttonStartAuto).setOnClickListener(ocl);
         if(nteam != 0){
-            ((EditText)findViewById(R.id.editText)).setText(String.valueOf(nteam));
+            ((EditText)ma.findViewById(R.id.editText)).setText(String.valueOf(nteam));
         }
-        Button start_button = (Button)findViewById(R.id.buttonStartAuto);
+        Button start_button = (Button)ma.findViewById(R.id.buttonStartAuto);
         start_button.setVisibility(View.GONE);
     }
 
     void inputTeams() // 2列にする name ___
     {
-        setContentView(R.layout.set_team_manual);
-        mainLayout = (RelativeLayout)findViewById(R.id.backGround);
-        findViewById(R.id.buttonStartManual).setOnClickListener(ocl);
-        findViewById(R.id.radioAuto).setOnClickListener(ocl);
-        findViewById(R.id.radioManual).setOnClickListener(ocl);
+        ma.setContentView(R.layout.set_team_manual);
+        mainLayout = (RelativeLayout)ma.findViewById(R.id.backGround);
+        ma.findViewById(R.id.buttonStartManual).setOnClickListener(ocl);
+        ma.findViewById(R.id.radioAuto).setOnClickListener(ocl);
+        ma.findViewById(R.id.radioManual).setOnClickListener(ocl);
         // TableLayoutのグループを取得
-        ViewGroup vg = (ViewGroup)findViewById(R.id.layoutTeamManual);
+        ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutTeamManual);
         for(int i = 0; i < nplayer; ++i){
             // 行を追加
             getLayoutInflater().inflate(R.layout.edit_add, vg);
@@ -154,7 +154,7 @@ public class Facilitator extends AppCompatActivity
     void setTeamAuto()
     {
         // layout幅 -> 文字サイズ小さくするか, スクロールできるようにするか
-        EditText input = (EditText)findViewById(R.id.editText);
+        EditText input = (EditText)ma.findViewById(R.id.editText);
         String inputStr = input.getText().toString();
         if(inputStr.length() != 0){
             nteam = Integer.parseInt(inputStr);
@@ -166,7 +166,7 @@ public class Facilitator extends AppCompatActivity
 
             assignTeam();
 
-            ViewGroup vg = (ViewGroup)findViewById(R.id.layoutTeamAuto);
+            ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutTeamAuto);
 
             for(int i = 0; i < 1; ++i){
                 TableRow tableRow = new TableRow(this);
@@ -195,7 +195,7 @@ public class Facilitator extends AppCompatActivity
                     break;
                 }
             }
-            Button start_button = (Button)findViewById(R.id.buttonStartAuto);
+            Button start_button = (Button)ma.findViewById(R.id.buttonStartAuto);
             start_button.setVisibility(View.VISIBLE);
             start_button.setOnClickListener(ocl);
         }
@@ -205,7 +205,7 @@ public class Facilitator extends AppCompatActivity
     {
         if(checkFill(ID_TEAM)){
             for(int i = 0; i < nplayer; ++i){
-                String str = ((EditText)findViewById(ID_BEGIN*ID_TEAM + i)).getText().toString();
+                String str = ((EditText)ma.findViewById(ID_BEGIN*ID_TEAM + i)).getText().toString();
                 players[i].setTeam(Integer.parseInt(str));
             }
             inputScores();
@@ -221,18 +221,18 @@ public class Facilitator extends AppCompatActivity
     {
         ++count4reset;
         calc.setRate();
-        setContentView(R.layout.set_score);
-        mainLayout = (RelativeLayout)findViewById(R.id.backGround);
-        findViewById(R.id.buttonNext).setOnClickListener(ocl);
-        findViewById(R.id.buttonFinish).setOnClickListener(ocl);
-        findViewById(R.id.checkHandi).setOnClickListener(ocl);
-        Button rate_button = (Button)findViewById(R.id.buttonRate);
+        ma.setContentView(R.layout.set_score);
+        mainLayout = (RelativeLayout)ma.findViewById(R.id.backGround);
+        ma.findViewById(R.id.buttonNext).setOnClickListener(ocl);
+        ma.findViewById(R.id.buttonFinish).setOnClickListener(ocl);
+        ma.findViewById(R.id.checkHandi).setOnClickListener(ocl);
+        Button rate_button = (Button)ma.findViewById(R.id.buttonRate);
         rate_button.setOnClickListener(ocl);
         rate_button.setText(String.format(Locale.getDefault(), "x %d", calc.getRate()));
-        TextView textView = (TextView)findViewById(R.id.textCnt);
+        TextView textView = (TextView)ma.findViewById(R.id.textCnt);
         textView.setText(String.format(Locale.getDefault(),
                 "input player's score of %d %s game", game_count+1, ordinalNum(game_count+1)));
-        ViewGroup vg = (ViewGroup)findViewById(R.id.layoutScore);
+        ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutScore);
         for(int i = 0; i < nplayer; ++i){
             getLayoutInflater().inflate(R.layout.edit_add, vg); // 行を追加
             TableRow tr = (TableRow)vg.getChildAt(i); // 文字設定
@@ -256,7 +256,7 @@ public class Facilitator extends AppCompatActivity
             toast.cancel();
         }
         calc.setRate();
-        Button rate_button = (Button)findViewById(R.id.buttonRate);
+        Button rate_button = (Button)ma.findViewById(R.id.buttonRate);
         rate_button.setText(String.format(Locale.getDefault(), "x %d", calc.getRate()));
         if( isClickEvent() ){
             rate_tap_count = 0;
@@ -282,7 +282,7 @@ public class Facilitator extends AppCompatActivity
                             String inputStr = editView.getText().toString();
                             if(inputStr.length() != 0){
                                 calc.setRate(Integer.parseInt(inputStr));
-                                Button rate_button = (Button)findViewById(R.id.buttonRate);
+                                Button rate_button = (Button)ma.findViewById(R.id.buttonRate);
                                 rate_button.setText(String.format(Locale.getDefault(),"x %d",
                                         calc.getRate()));
                             }
@@ -299,13 +299,13 @@ public class Facilitator extends AppCompatActivity
     {
         if(checkFill(ID_SCORE)){
             ++game_count;
-            if( ((CheckBox)findViewById(R.id.checkHandi)).isChecked() ) {
+            if( ((CheckBox)ma.findViewById(R.id.checkHandi)).isChecked() ) {
                 // for(int i = 0;i < nplayer; ++i){
                 calc.setHandicap(players); // 入力できるようにする
                 // }
             }
             for(int i = 0; i < nplayer; i++){
-                String str = ((EditText)findViewById(ID_BEGIN*ID_SCORE + i)).getText().toString();
+                String str = ((EditText)ma.findViewById(ID_BEGIN*ID_SCORE + i)).getText().toString();
                 players[i].setScratch(Integer.parseInt(str), game_count);
             }
             calc.setCount(game_count);
@@ -322,7 +322,7 @@ public class Facilitator extends AppCompatActivity
 
     void showResult()
     {
-        setContentView(R.layout.show_result);
+        ma.setContentView(R.layout.show_result);
 
         Calendar cal = Calendar.getInstance();       //カレンダーを取得
 
@@ -333,10 +333,10 @@ public class Facilitator extends AppCompatActivity
         String strDay = iYear + "/" + iMonth + "/" + iDate + " :    ";
         String strGames = game_count + " games";
         String strDay_games = strDay + strGames;
-        ((TextView)findViewById(R.id.textDate)).setText(strDay_games);
+        ((TextView)ma.findViewById(R.id.textDate)).setText(strDay_games);
 
-        findViewById(R.id.buttonExit).setOnClickListener(ocl);
-        ViewGroup vg = (ViewGroup)findViewById(R.id.layoutResult);
+        ma.findViewById(R.id.buttonExit).setOnClickListener(ocl);
+        ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutResult);
         for(int i = 0; i < nplayer; i++){
             getLayoutInflater().inflate(R.layout.result, vg);
             TableRow tr = (TableRow)vg.getChildAt(i+1);
@@ -419,7 +419,7 @@ public class Facilitator extends AppCompatActivity
     {
         boolean flag = false;
         for(int i = 0;i < nplayer; ++i){
-            EditText input = (EditText)findViewById(ID_BEGIN*type + i);
+            EditText input = (EditText)ma.findViewById(ID_BEGIN*type + i);
             if(input.getText().toString().equals("")){
                 break;
             }
