@@ -12,8 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import android.text.InputType;
 
-import android.support.v7.app.AppCompatActivity;
-
 import android.view.View;
 import android.view.Gravity;
 import android.view.inputmethod.InputMethodManager;
@@ -33,7 +31,7 @@ import java.util.Locale;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Facilitator extends AppCompatActivity
+public class Facilitator
 {
     private int nplayer = 0; // number of players
     private int nteam = 0;   // number of teams
@@ -49,7 +47,7 @@ public class Facilitator extends AppCompatActivity
     private RelativeLayout mainLayout;
     private SQLiteDatabase db;
     private static Random rand = new Random();
-    public static Toast toast;
+    private static Toast toast;
 
     private Player[] players;
     private Calculator calc = new Calculator();
@@ -65,7 +63,7 @@ public class Facilitator extends AppCompatActivity
         inputMethodManager = (InputMethodManager)ma.getSystemService(Context.INPUT_METHOD_SERVICE);
         mainLayout = (RelativeLayout)ma.findViewById(R.id.backGround);
 
-        ma.findViewById(R.id.buttonNum).setOnClickListener(ocl);
+        ma.findViewById(R.id.buttonNum).setOnClickListener(ma);
         Button name_button = (Button)ma.findViewById(R.id.buttonName);
         name_button.setVisibility(View.GONE);
     }
@@ -78,6 +76,7 @@ public class Facilitator extends AppCompatActivity
             nplayer = Integer.parseInt(inputStr);
         }
         if(nplayer > 0){
+            players = new Player[nplayer];
             calc.setNumPlayer(nplayer);
 
             inputMethodManager.hideSoftInputFromWindow
@@ -86,8 +85,9 @@ public class Facilitator extends AppCompatActivity
             // TableLayoutのグループを取得
             ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutName);
             for(int i = 0; i < nplayer; ++i){
+                players[i] = new Player();
                 // 行を追加
-                getLayoutInflater().inflate(R.layout.edit_add, vg);
+                ma.getLayoutInflater().inflate(R.layout.edit_add, vg);
                 // 文字設定
                 TableRow tr = (TableRow)vg.getChildAt(i);
                 String str = String.format(Locale.getDefault(), "input player%d's name", i + 1);
@@ -98,18 +98,16 @@ public class Facilitator extends AppCompatActivity
             }
             Button start_button = (Button)ma.findViewById(R.id.buttonName);
             start_button.setVisibility(View.VISIBLE);
-            start_button.setOnClickListener(ocl);
+            start_button.setOnClickListener(ma);
         }
     }
 
     void setPlayers()
     {
         if(checkFill(ID_NAME)){
-            players = new Player[nplayer];
             for(int i = 0; i < nplayer; ++i){
-                players[i] = new Player();
                 String str = ((EditText)ma.findViewById(ID_BEGIN*ID_NAME + i)).getText().toString();
-                players[i].setTeam(Integer.parseInt(str));
+                players[i].setName(str);
             }
             inputNumTeam();
         }
@@ -119,10 +117,10 @@ public class Facilitator extends AppCompatActivity
     {
         ma.setContentView(R.layout.set_team_auto);
         mainLayout = (RelativeLayout)ma.findViewById(R.id.backGround);
-        ma.findViewById(R.id.radioManual).setOnClickListener(ocl);
-        ma.findViewById(R.id.radioAuto).setOnClickListener(ocl);
-        ma.findViewById(R.id.buttonTeam).setOnClickListener(ocl);
-        ma.findViewById(R.id.buttonStartAuto).setOnClickListener(ocl);
+        ma.findViewById(R.id.radioManual).setOnClickListener(ma);
+        ma.findViewById(R.id.radioAuto).setOnClickListener(ma);
+        ma.findViewById(R.id.buttonTeam).setOnClickListener(ma);
+        ma.findViewById(R.id.buttonStartAuto).setOnClickListener(ma);
         if(nteam != 0){
             ((EditText)ma.findViewById(R.id.editText)).setText(String.valueOf(nteam));
         }
@@ -134,14 +132,14 @@ public class Facilitator extends AppCompatActivity
     {
         ma.setContentView(R.layout.set_team_manual);
         mainLayout = (RelativeLayout)ma.findViewById(R.id.backGround);
-        ma.findViewById(R.id.buttonStartManual).setOnClickListener(ocl);
-        ma.findViewById(R.id.radioAuto).setOnClickListener(ocl);
-        ma.findViewById(R.id.radioManual).setOnClickListener(ocl);
+        ma.findViewById(R.id.buttonStartManual).setOnClickListener(ma);
+        ma.findViewById(R.id.radioAuto).setOnClickListener(ma);
+        ma.findViewById(R.id.radioManual).setOnClickListener(ma);
         // TableLayoutのグループを取得
         ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutTeamManual);
         for(int i = 0; i < nplayer; ++i){
             // 行を追加
-            getLayoutInflater().inflate(R.layout.edit_add, vg);
+            ma.getLayoutInflater().inflate(R.layout.edit_add, vg);
             // 文字設定
             TableRow tr = (TableRow)vg.getChildAt(i);
             String str = String.format(Locale.getDefault(), "input %s's team", players[i].getName());
@@ -169,9 +167,9 @@ public class Facilitator extends AppCompatActivity
             ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutTeamAuto);
 
             for(int i = 0; i < 1; ++i){
-                TableRow tableRow = new TableRow(this);
+                TableRow tableRow = new TableRow(ma);
                 for(int iCol = 0; iCol < nteam; ++iCol){
-                    TextView text = new TextView(this);
+                    TextView text = new TextView(ma);
                     text.setText(String.format(Locale.getDefault(), "team%d", iCol+1));
                     tableRow.addView(text);
                 }
@@ -179,9 +177,9 @@ public class Facilitator extends AppCompatActivity
             }
             int i = 0;
             while(true){
-                TableRow tableRow = new TableRow(this);
+                TableRow tableRow = new TableRow(ma);
                 for(int iCol = 0; iCol < nteam; ++iCol){
-                    TextView text = new TextView(this);
+                    TextView text = new TextView(ma);
                     text.setText(players[i].getName());
                     tableRow.addView(text);
                     ++i;
@@ -197,7 +195,7 @@ public class Facilitator extends AppCompatActivity
             }
             Button start_button = (Button)ma.findViewById(R.id.buttonStartAuto);
             start_button.setVisibility(View.VISIBLE);
-            start_button.setOnClickListener(ocl);
+            start_button.setOnClickListener(ma);
         }
     }
 
@@ -217,38 +215,6 @@ public class Facilitator extends AppCompatActivity
         inputScores(false);
     }
 
-    void inputScores(boolean flag_reset)
-    {
-        ++count4reset;
-        calc.setRate();
-        ma.setContentView(R.layout.set_score);
-        mainLayout = (RelativeLayout)ma.findViewById(R.id.backGround);
-        ma.findViewById(R.id.buttonNext).setOnClickListener(ocl);
-        ma.findViewById(R.id.buttonFinish).setOnClickListener(ocl);
-        ma.findViewById(R.id.checkHandi).setOnClickListener(ocl);
-        Button rate_button = (Button)ma.findViewById(R.id.buttonRate);
-        rate_button.setOnClickListener(ocl);
-        rate_button.setText(String.format(Locale.getDefault(), "x %d", calc.getRate()));
-        TextView textView = (TextView)ma.findViewById(R.id.textCnt);
-        textView.setText(String.format(Locale.getDefault(),
-                "input player's score of %d %s game", game_count+1, ordinalNum(game_count+1)));
-        ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutScore);
-        for(int i = 0; i < nplayer; ++i){
-            getLayoutInflater().inflate(R.layout.edit_add, vg); // 行を追加
-            TableRow tr = (TableRow)vg.getChildAt(i); // 文字設定
-            String str;
-            if(flag_reset){
-                str = String.format(Locale.getDefault(),
-                        "input %s's score (%d)", players[i].getName(), players[i].getScratch());
-            }else{
-                str = String.format(Locale.getDefault(),
-                        "input %s's score", players[i].getName());
-            }
-            ((EditText)(tr.getChildAt(0))).setHint(str);
-            ((EditText)(tr.getChildAt(0))).setInputType(InputType.TYPE_CLASS_NUMBER);
-            ((EditText)(tr.getChildAt(0))).setId(ID_BEGIN*ID_SCORE + i);
-        }
-    }
 
     void setRate()
     {
@@ -260,7 +226,7 @@ public class Facilitator extends AppCompatActivity
         rate_button.setText(String.format(Locale.getDefault(), "x %d", calc.getRate()));
         if( isClickEvent() ){
             rate_tap_count = 0;
-            toast = Toast.makeText(this,
+            toast = Toast.makeText(ma,
                     "can't change rate in this ver (auto set)", Toast.LENGTH_SHORT);
             toast.show();
         }else{
@@ -269,10 +235,10 @@ public class Facilitator extends AppCompatActivity
         }
         if(rate_tap_count > 2){
             rate_tap_count = 0;
-            final EditText editView = new EditText(this);
+            final EditText editView = new EditText(ma);
             editView.setInputType(InputType.TYPE_CLASS_NUMBER);
             editView.setGravity(Gravity.CENTER);
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(ma)
                     .setIcon(android.R.drawable.ic_dialog_info)
                     .setTitle("change rate")
                     .setView(editView) //setViewにてビューを設定
@@ -335,10 +301,10 @@ public class Facilitator extends AppCompatActivity
         String strDay_games = strDay + strGames;
         ((TextView)ma.findViewById(R.id.textDate)).setText(strDay_games);
 
-        ma.findViewById(R.id.buttonExit).setOnClickListener(ocl);
+        ma.findViewById(R.id.buttonExit).setOnClickListener(ma);
         ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutResult);
         for(int i = 0; i < nplayer; i++){
-            getLayoutInflater().inflate(R.layout.result, vg);
+            ma.getLayoutInflater().inflate(R.layout.result, vg);
             TableRow tr = (TableRow)vg.getChildAt(i+1);
             ((TextView)(tr.getChildAt(0))).setText(players[i].getName());
             String str = String.format(Locale.getDefault(), "%4.1f", players[i].getAveScratch());
@@ -357,22 +323,22 @@ public class Facilitator extends AppCompatActivity
         mainLayout.requestFocus();
     }
 
-    void showLastReslult() // 前回の収支確認
+    void showLastResult() // 前回の収支確認
     {
-        Intent intent = new Intent(this, InterimResultActivity.class);
+        Intent intent = new Intent(ma, InterimResultActivity.class);
         intent.putExtra("NUMBER", nplayer);
         intent.putExtra("PLAYER", players);
         intent.putExtra("COUNT",  game_count);
-        startActivityForResult(intent, 0);
+        ma.startActivityForResult(intent, 0);
     }
 
     void showLastTeam()
     {
-        Intent intent_team = new Intent(this, TeamActivity.class);
+        Intent intent_team = new Intent(ma, TeamActivity.class);
         intent_team.putExtra("p_NUM", nplayer);
         intent_team.putExtra("t_NUM", nteam);
         intent_team.putExtra("PLAYER", players);
-        startActivityForResult(intent_team, 0);
+        ma.startActivityForResult(intent_team, 0);
     }
 
     void resetLastScore()
@@ -389,7 +355,7 @@ public class Facilitator extends AppCompatActivity
     void writeDBLast()
     {
         if(game_count > 0){
-            MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this); // インスタンス作成
+            MySQLiteOpenHelper helper = new MySQLiteOpenHelper(ma); // インスタンス作成
             db = helper.getWritableDatabase(); // 読み書き出来るように開く
             ContentValues updateValues = new ContentValues();
             updateValues.put("delete_flg", 1);
@@ -415,6 +381,39 @@ public class Facilitator extends AppCompatActivity
     }
 
     // private
+    private void inputScores(boolean flag_reset)
+    {
+        ++count4reset;
+        calc.setRate();
+        ma.setContentView(R.layout.set_score);
+        mainLayout = (RelativeLayout)ma.findViewById(R.id.backGround);
+        ma.findViewById(R.id.buttonNext).setOnClickListener(ma);
+        ma.findViewById(R.id.buttonFinish).setOnClickListener(ma);
+        ma.findViewById(R.id.checkHandi).setOnClickListener(ma);
+        Button rate_button = (Button)ma.findViewById(R.id.buttonRate);
+        rate_button.setOnClickListener(ma);
+        rate_button.setText(String.format(Locale.getDefault(), "x %d", calc.getRate()));
+        TextView textView = (TextView)ma.findViewById(R.id.textCnt);
+        textView.setText(String.format(Locale.getDefault(),
+                "input player's score of %d %s game", game_count+1, ordinalNum(game_count+1)));
+        ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutScore);
+        for(int i = 0; i < nplayer; ++i){
+            ma.getLayoutInflater().inflate(R.layout.edit_add, vg); // 行を追加
+            TableRow tr = (TableRow)vg.getChildAt(i); // 文字設定
+            String str;
+            if(flag_reset){
+                str = String.format(Locale.getDefault(),
+                        "input %s's score (%d)", players[i].getName(), players[i].getScratch());
+            }else{
+                str = String.format(Locale.getDefault(),
+                        "input %s's score", players[i].getName());
+            }
+            ((EditText)(tr.getChildAt(0))).setHint(str);
+            ((EditText)(tr.getChildAt(0))).setInputType(InputType.TYPE_CLASS_NUMBER);
+            ((EditText)(tr.getChildAt(0))).setId(ID_BEGIN*ID_SCORE + i);
+        }
+    }
+
     private boolean checkFill(int type) // EditTextが全部埋まってるか
     {
         boolean flag = false;
@@ -459,7 +458,7 @@ public class Facilitator extends AppCompatActivity
 
     private void writeDBPersonal()
     {
-        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this); // インスタンス作成
+        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(ma); // インスタンス作成
         db = helper.getWritableDatabase(); // 読み書き出来るように開く
         Cursor cursor; // レコードを検索してカーソルを作成
         for(int i = 0; i < nplayer; i++){
@@ -514,7 +513,7 @@ public class Facilitator extends AppCompatActivity
 
     private void deleteDBLast()
     {
-        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this); // インスタンス作成
+        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(ma); // インスタンス作成
         db = helper.getWritableDatabase(); // 読み書き出来るように開く
         Cursor cursor; // レコードを検索してカーソルを作成
         for(int i = 0; i < nplayer; i++){
@@ -559,6 +558,7 @@ public class Facilitator extends AppCompatActivity
                 values.put("count", game_cnt);
                 db.update("personal_data", values, "name=?", new String[] { players[i].getName() });
             }
+            cursor.close();
         }
     }
 

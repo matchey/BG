@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	{
         switch (item.getItemId()){
             case MENU_SELECT_LAST:
-				process.showLastReslult();
+				process.showLastResult();
 				break;
 
             case MENU_SELECT_TEAM:
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(keyCode != KeyEvent.KEYCODE_BACK){
             return super.onKeyDown(keyCode, event);
         }else{
-			process.showLastReslult();
+			process.showLastResult();
             return false;
         }
     }
