@@ -1,5 +1,7 @@
 package com.example.amsl.bg;
 
+import java.io.Serializable;
+
 class Player implements Serializable
 {
     private String name;			// player's name

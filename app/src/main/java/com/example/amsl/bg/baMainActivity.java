@@ -39,7 +39,7 @@ import java.util.*;
 import static java.lang.Math.exp;
 
 // public class MainActivity extends AppCompatActivity implements OnClickListener {
-public class MainActivity_ba{
+public class baMainActivity{
 
     private InputMethodManager inputMethodManager;
     private RelativeLayout mainLayout;

@@ -1,39 +1,18 @@
 package com.example.amsl.bg;
 
-// import android.content.Context;
-// import android.support.v7.app.AppCompatActivity;
-// import android.support.v7.app.AlertDialog;
-// import android.os.Bundle;
-// import android.content.Intent;
-// import android.content.ContentValues;
-// import android.content.DialogInterface;
-// import android.database.Cursor;
-// import android.view.Gravity;
-// import android.view.Menu;
-// import android.view.MenuItem;
-// import android.widget.TextView;
-//
-// import java.io.Serializable;
-// import java.util.Locale;
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.lang.Math;
-//
-// import android.text.InputType;
-// import android.view.KeyEvent;
-// import android.view.View;
-// import android.view.ViewGroup;
-// import android.view.inputmethod.InputMethodManager;
-// import android.widget.RelativeLayout;
-// import android.widget.EditText;
-// import android.widget.TableRow;
-// import android.widget.CheckBox;
-// import android.view.MotionEvent;
-//
-// import android.widget.Button;
-// import android.view.View.OnClickListener;
-// import java.util.*;
-//
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import android.view.inputmethod.InputMethodManager;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+
+import android.view.View.OnClickListener;
+import java.util.*;
+
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
