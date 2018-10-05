@@ -7,9 +7,10 @@ class Calculator
 {
 	private int rate = 10;
 	private int base_rate = 10;
-	private static final double prob[] = {0.05, 0.15, 0.2, 0.0001, 0.0};
+	private static final double prob[] = {0.05, 0.12, 0.2, 0.01, 0.0};
 	private static final double ratio[] = {1.5, 2.0, 3.0, 5.0, 10.0};
 	private int game_count = 0;
+	private int nplayer = 0;
 
 	int getRate() { return rate; }
 
@@ -49,19 +50,28 @@ class Calculator
 		game_count = counter;
 	}
 
-	void teamCalc(boolean flag_handi)
+	int setNumPlayer(int num)
+	{
+		nplayer = num;
+	}
+
+	void teamCalc(Player[] players)
 	{
 	}
 
-	void playerCalc()
+	void playerCalc(Player[] players)
+	{
+	}
+	
+	void setHandicap(Player[] players)
 	{
 	}
 
-	void calcHandicap()
+	void calcHandicap(Player[] players)
 	{
 	}
 
-	void resetLastScore()
+	void resetLastScore(Player[] players)
 	{
 	//     --countしてsum_IEからlast引いて新しいのをセットし直す.
 	}

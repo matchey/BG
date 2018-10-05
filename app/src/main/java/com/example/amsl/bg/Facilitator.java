@@ -42,20 +42,22 @@ class Facilitator
 	{
 		EditText input = (EditText)findViewById(R.id.editNum);
 		String inputStr = input.getText().toString();
-		if(inputStr.length() != 0) {
+		if(inputStr.length() != 0){
 			nplayer = Integer.parseInt(inputStr);
 		}
 		if(nplayer > 0){
+			calc.setNumPlayer(nplayer);
+
 			inputMethodManager.hideSoftInputFromWindow
 							(mainLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 			mainLayout.requestFocus();
 			// TableLayoutのグループを取得
-			ViewGroup vg = (ViewGroup) findViewById(R.id.layoutName);
-			for (int i = 0; i < nplayer; ++i) {
+			ViewGroup vg = (ViewGroup)findViewById(R.id.layoutName);
+			for(int i = 0; i < nplayer; ++i){
 				// 行を追加
 				getLayoutInflater().inflate(R.layout.edit_add, vg);
 				// 文字設定
-				TableRow tr = (TableRow) vg.getChildAt(i);
+				TableRow tr = (TableRow)vg.getChildAt(i);
 				String str = String.format(Locale.getDefault(), "input player%d's name", i + 1);
 				((EditText)(tr.getChildAt(0))).setHint(str);
 
@@ -89,7 +91,7 @@ class Facilitator
 		findViewById(R.id.radioAuto).setOnClickListener(this);
 		findViewById(R.id.buttonTeam).setOnClickListener(this);
 		findViewById(R.id.buttonStart).setOnClickListener(this);
-		if(nteam != 0) {
+		if(nteam != 0){
 			((EditText)findViewById(R.id.editText)).setText(String.valueOf(nteam));
 		}
 		Button start_button = (Button)findViewById(R.id.buttonStart);
@@ -105,15 +107,15 @@ class Facilitator
 		findViewById(R.id.radioManual).setOnClickListener(this);
 		// TableLayoutのグループを取得
 		ViewGroup vg = (ViewGroup)findViewById(R.id.layoutTeamManual);
-		for (int i = 0; i < num; ++i) {
+		for(int i = 0; i < nplayer; ++i){
 			// 行を追加
 			getLayoutInflater().inflate(R.layout.edit_add, vg);
 			// 文字設定
 			TableRow tr = (TableRow)vg.getChildAt(i);
 			String str = String.format(Locale.getDefault(), "input %s's team", players[i].getName());
-			((EditText) (tr.getChildAt(0))).setHint(str);
-			((EditText) (tr.getChildAt(0))).setInputType(InputType.TYPE_CLASS_NUMBER);
-			((EditText) (tr.getChildAt(0))).setId(ID_BEGIN*ID_TEAM + i);
+			((EditText)(tr.getChildAt(0))).setHint(str);
+			((EditText)(tr.getChildAt(0))).setInputType(InputType.TYPE_CLASS_NUMBER);
+			((EditText)(tr.getChildAt(0))).setId(ID_BEGIN*ID_TEAM + i);
 		}
 	}
 
@@ -136,7 +138,7 @@ class Facilitator
 
 			for(int i = 0; i < 1; ++i){
 				TableRow tableRow = new TableRow(this);
-				for (int iCol = 0; iCol < nteam; ++iCol) {
+				for(int iCol = 0; iCol < nteam; ++iCol){
 					TextView text = new TextView(this);
 					text.setText(String.format(Locale.getDefault(), "team%d", iCol+1));
 					tableRow.addView(text);
@@ -151,12 +153,12 @@ class Facilitator
 					text.setText(players[i].getName());
 					tableRow.addView(text);
 					++i;
-					if (i == num) {
+					if(i == nplayer){
 						break;
 					}
 				}
 				vg.addView(tableRow);
-				if(i == num){
+				if(i == nplayer){
 					i = 0;
 					break;
 				}
@@ -170,7 +172,7 @@ class Facilitator
 	void setTeamManual() // string ならPlayerには0~nで割り当て
 	{
 		if(checkFill(ID_TEAM)){
-            for (int i = 0; i < num; ++i) {
+            for(int i = 0; i < nplayer; ++i){
                 String str = ((EditText)findViewById(ID_BEGIN*ID_TEAM + i)).getText().toString();
                 players[i].setTeam(Integer.parseInt(str));
             }
@@ -198,8 +200,8 @@ class Facilitator
 		textView = (TextView)findViewById(R.id.textCnt);
 		textView.setText(String.format(Locale.getDefault(),
 					"input player's score of %d %s game", game_count+1, ordinalNum(game_count+1)));
-		vg = (ViewGroup) findViewById(R.id.layoutScore);
-		for (int i = 0; i < num; ++i) {
+		vg = (ViewGroup)findViewById(R.id.layoutScore);
+		for(int i = 0; i < nplayer; ++i){
 			getLayoutInflater().inflate(R.layout.edit_add, vg); // 行を追加
 			TableRow tr = (TableRow)vg.getChildAt(i); // 文字設定
 			if(flag_reset){
@@ -241,11 +243,11 @@ class Facilitator
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.setTitle("change rate")
 				.setView(editView) //setViewにてビューを設定
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
+				.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int whichButton){
 						//入力した文字をトースト出力する
 						String inputStr = editView.getText().toString();
-						if(inputStr.length() != 0) {
+						if(inputStr.length() != 0){
 							calc.setRate(Integer.parseInt(inputStr));
 							Button rate_button = (Button)findViewById(R.id.buttonRate);
 							rate_button.setText(String.format(Locale.getDefault(),"x %d",
@@ -253,8 +255,8 @@ class Facilitator
 						}
 					}
 				})
-				.setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) { }
+				.setNegativeButton("キャンセル", new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int whichButton){ }
 				})
 				.show();
 		}
@@ -263,17 +265,18 @@ class Facilitator
 	boolean setScores()
 	{
 		if(checkFill(ID_SCORE)){
-			boolean flag_handi = false;
 			if( ((CheckBox)findViewById(R.id.checkHandi)).isChecked() ){
-				flag_handi = true;
+				// for(int i = 0;i < nplayer; ++i){
+				calc.setHandicap(); // 入力できるようにする
+				// }
 			}
-            for (int i = 0; i < nplayer; i++){
+            for(int i = 0; i < nplayer; i++){
                 String str = ((EditText)findViewById(ID_BEGIN*ID_SCORE + i)).getText().toString();
                 players[i].setScratch(Integer.parseInt(str));
             }
 			++game_count;
 			calc.setCount(game_count);
-			calc.teamCalc(flag_handi);
+			calc.teamCalc();
 			calc.playerCalc();
 
 			writeDBPersonal();
@@ -300,20 +303,20 @@ class Facilitator
 		((TextView)findViewById(R.id.textDate)).setText(strDay_games);
 
 		findViewById(R.id.buttonExit).setOnClickListener(this);
-		vg = (ViewGroup) findViewById(R.id.layoutResult);
-		for (int i = 0; i < nplayer; i++) {
+		vg = (ViewGroup)findViewById(R.id.layoutResult);
+		for(int i = 0; i < nplayer; i++){
 			getLayoutInflater().inflate(R.layout.result, vg);
 			TableRow tr = (TableRow)vg.getChildAt(i+1);
-			((TextView) (tr.getChildAt(0))).setText(players[i].getName());
+			((TextView)(tr.getChildAt(0))).setText(players[i].getName());
 			String str = String.format(Locale.getDefault(), "%4.1f", players[i].getAveScratch());
-			((TextView) (tr.getChildAt(1))).setText(str);
+			((TextView)(tr.getChildAt(1))).setText(str);
 			str = String.format(Locale.getDefault(),
 												"%5d yen", (int)players[i].getIncomeExpenditure());
 			((TextView)(tr.getChildAt(2))).setText(str);
 		}
 	}
 
-	void showLastReslult()
+	void showLastReslult() // 前回の収支確認
 	{
 		Intent intent = new Intent(this, InterimResultActivity.class);
 		intent.putExtra("NUMBER", nplayer);
@@ -351,14 +354,14 @@ class Facilitator
 			updateValues.put("delete_flg", 1);
 			db.update("personal_data", updateValues, "delete_flg=?", new String[] { "0" });
 			Cursor cursor;
-			for(int i = 0; i < nplayer; ++i) {
+			for(int i = 0; i < nplayer; ++i){
 				cursor = db.query("personal_data", new String[]{"_id", "name"},
 				       		"name = ?", new String[]{ players[i].getName() }, null, null, null);
 				ContentValues values = new ContentValues();
 				values.put("last_ave", players[i].getAveScratch());
 				values.put("last_res", players[i].getIncomeExpenditure());
 				values.put("delete_flg", 0);
-				if (cursor.moveToNext()) { // カーソルから値を取り出す
+				if(cursor.moveToNext()){ // カーソルから値を取り出す
 					db.update("personal_data", values,
 							  "name=?", new String[] { players[i].getName() });
 				}else{
@@ -374,7 +377,7 @@ class Facilitator
     private boolean checkFill(int type) // EditTextが全部埋まってるか
 	{
         boolean flag = false;
-        for(int i = 0;i < nplayer; ++i) {
+        for(int i = 0;i < nplayer; ++i){
             EditText input = (EditText)findViewById(ID_BEGIN*type + i);
             if(input.getText().toString().equals("")){
                 break;
@@ -405,7 +408,7 @@ class Facilitator
     {
         for(int i = size - 1; i > 0; --i){
             int j = rand.nextInt(i + 1);
-            if(i != j) {
+            if(i != j){
                 T t = ary[i];
                 ary[i] = ary[j];
                 ary[j] = t;
@@ -418,7 +421,7 @@ class Facilitator
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this); // インスタンス作成
         db = helper.getWritableDatabase(); // 読み書き出来るように開く
         Cursor cursor; // レコードを検索してカーソルを作成
-        for(int i=0; i<num; i++) {
+        for(int i = 0; i < nplayer; i++){
             cursor = db.query("personal_data", new String[]{"_id", "name", "result", "ave",
                     "count", "over_flg"}, "name = ?", new String[]{ players[i].getName() },
 																		null, null, null);
@@ -428,7 +431,7 @@ class Facilitator
             List<Integer> rec_flg = new ArrayList<Integer>();
 
 
-            if (cursor.moveToNext()) { // カーソルから値を取り出す
+            if(cursor.moveToNext()){ // カーソルから値を取り出す
                 rec_ave.add(cursor.getDouble(cursor.getColumnIndex("ave")));
                 rec_cnt.add(cursor.getInt(cursor.getColumnIndex("count")));
                 rec_res.add(cursor.getInt(cursor.getColumnIndex("result")));
@@ -473,7 +476,7 @@ class Facilitator
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this); // インスタンス作成
         db = helper.getWritableDatabase(); // 読み書き出来るように開く
         Cursor cursor; // レコードを検索してカーソルを作成
-        for(int i=0; i<num; i++) {
+        for(int i = 0; i < nplayer; i++){
             cursor = db.query("personal_data", new String[]{"_id", "name", "result", "ave",
                     "count", "over_flg"}, "name = ?", new String[]{ players[i].getName() },
 																		null, null, null);
@@ -482,15 +485,39 @@ class Facilitator
             List<Integer> rec_res = new ArrayList<Integer>();
             List<Integer> rec_flg = new ArrayList<Integer>();
 
-			int game_cnt = rec_cnt.get(0);
-			double average;
-			if(rec_flg.get(0) == 1){
-				average = (61.0 * rec_ave.get(0) - players[i].getScratch() ) / 60.0;
-			}else{
-				average
-				= (1.0 * (game_cnt + 1) * rec_ave.get(0) - players[i].getScratch()) / game_cnt;
-			}
-			int result = rec_res.get(0) - players[i].getIncomeExpenditure();
+            if(cursor.moveToNext()){
+				rec_ave.add(cursor.getFloat(cursor.getColumnIndex("ave")));
+				rec_cnt.add(cursor.getInt(cursor.getColumnIndex("count")));
+				rec_res.add(cursor.getInt(cursor.getColumnIndex("result")));
+				rec_flg.add(cursor.getInt(cursor.getColumnIndex("over_flg")));
+
+				float average;
+				int result;
+				int game_cnt = rec_cnt.get(0);
+
+				if(game_cnt == 0){
+					game_cnt = 59;
+				}else{
+					game_cnt -= 1;
+				}
+
+				if(rec_flg.get(0) == 1){
+					average = (61.0 * rec_ave.get(0) - players[i].getScratch() ) / 60.0;
+				}else if(game_cnt == 0){
+					average = 0;
+				}else{
+					average
+					= (1.0 * (game_cnt + 1) * rec_ave.get(0) - players[i].getScratch()) / game_cnt;
+				}
+
+				result = rec_res.get(0) - players[i].getIncomeExpenditure();
+
+				ContentValues values = new ContentValues();
+				values.put("ave", average);
+				values.put("result", result);
+				values.put("count", game_cnt);
+				db.update("personal_data", values, "name=?", new String[] { player[i].get_name() });
+            }
 		}
 	}
 
@@ -510,7 +537,7 @@ class Facilitator
 	{
         int check = number % 10;
         String rtn = "th";
-        switch (check){
+        switch(check){
             case 1:
                 rtn = "st";
                 break;

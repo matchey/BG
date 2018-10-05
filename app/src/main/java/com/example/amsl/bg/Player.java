@@ -14,14 +14,7 @@ class Player implements Serializable
     private int income_expenditure;	// last income and expenditure
     private int sum_IE = 0;			// sum of income and expenditure
 
-    Player()
-	{
-		// scratch = 0;
-		// score = 0;
-		// sum_scratch = 0;
-		// sum = 0;
-		// income_expenditure = 0;
-	}
+    Player(){ }
 
     String getName(){ return name; }
     int getTeam(){ return team; }
