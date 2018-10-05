@@ -1,32 +1,30 @@
-package com.example.amsl.bg;
+package com.example.matchey.bg;
 
 import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 
-import android.view.inputmethod.InputMethodManager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
-import android.view.View.OnClickListener;
-import java.util.*;
-
-
-public class MainActivity extends AppCompatActivity implements OnClickListener
+public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     public static final int MENU_SELECT_LAST  = 0;
     public static final int MENU_SELECT_TEAM  = 1;
     public static final int MENU_SELECT_RESET = 2;
 
-	Facilitator process = new Facilitator();
+	Facilitator process;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) // アプリ初期化
 	{
         super.onCreate(savedInstanceState);
-		process.initViews();
+        process = new Facilitator();
+		process.initViews(this);
+        setContentView(R.layout.set_player);
     }
 
     public void onClick(View view) // 各ボタンタップ時の挙動
@@ -90,10 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
     @Override
     public boolean onTouchEvent(MotionEvent event)
 	{
-        inputMethodManager.hideSoftInputFromWindow
-			(mainLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-        mainLayout.requestFocus();
+        process.onTouch();
 
         return true;
     }

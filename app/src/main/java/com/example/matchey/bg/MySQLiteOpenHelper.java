@@ -1,7 +1,7 @@
-package com.example.amsl.bg;
+package com.example.matchey.bg;
 
 /**
- * Created by amsl on 16/08/29.
+ * Created by matchey on 16/08/29.
  */
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,7 +35,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     }
 
-	private String create60seq(String str, String typ)
+	private static String create60seq(String str, String typ)
 	{
 		String rtn = "";
 

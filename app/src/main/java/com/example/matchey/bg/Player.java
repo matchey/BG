@@ -1,8 +1,8 @@
-package com.example.amsl.bg;
+package com.example.matchey.bg;
 
 import java.io.Serializable;
 
-class Player implements Serializable
+public class Player implements Serializable
 {
     private String name;			// player's name
     private int team;				// player's team
@@ -24,6 +24,7 @@ class Player implements Serializable
     // int getScore(){ return score; }
     double getAveScratch(){ return ave_scratch; }
     double getAverage(){ return average; }
+    int getHandicap(){ return handicap; }
 	int getIncomeExpenditure(){ return income_expenditure; }
 	int getSumIE(){ return sum_IE; }
 	 

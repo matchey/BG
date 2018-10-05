@@ -1,4 +1,4 @@
-package com.example.amsl.bg;
+package com.example.matchey.bg;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AlertDialog;

@@ -1,4 +1,4 @@
-package com.example.amsl.bg;
+package com.example.matchey.bg;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +20,7 @@ public class TeamActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.buttonBackToGame).setOnClickListener(this);
 
         Intent intent = getIntent();
-        Player[] player = (Player[]) intent.getSerializableExtra("PLAYER");
+        Player[] players = (Player[]) intent.getSerializableExtra("PLAYER");
         int num = intent.getIntExtra("p_NUM",0);
         int num_team = intent.getIntExtra("t_NUM",0);
         //int counter = intent.getIntExtra("COUNT",1);
@@ -47,7 +47,7 @@ public class TeamActivity extends AppCompatActivity implements View.OnClickListe
                 for (int iCol = 0; iCol < num_team; iCol++) {
                     TextView text = new TextView(this);
                     //text.setText(String.format("[%d,%d]", iRow, iCol));
-                    text.setText(player[i].get_name());
+                    text.setText(players[i].getName());
                     tableRow.addView(text);
                     i++;
                     if (i == num) {

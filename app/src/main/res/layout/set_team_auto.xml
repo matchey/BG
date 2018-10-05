@@ -102,13 +102,13 @@
 
 
     <Button
+        android:id="@+id/buttonStartAuto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
-        android:id="@+id/buttonStart"
-        android:layout_marginBottom="81dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="81dp"
+        android:text="Start" />
 
 
 </RelativeLayout>

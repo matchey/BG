@@ -1,4 +1,4 @@
-package com.example.amsl.bg;
+package com.example.matchey.bg;
 
 import java.lang.Math;
 import static java.lang.Math.exp;
@@ -14,7 +14,7 @@ class Calculator
 
 	int getRate() { return rate; }
 
-	int setRate()
+	void setRate()
 	{
         rate = base_rate;
 
@@ -31,26 +31,24 @@ class Calculator
 		for(int i = 0; i < size; ++i){
 			p += prob[i];
 			if(t <= p){
-				rate = ratio[i] * base_rate;
+				rate = (int)(ratio[i] * base_rate);
 				break;
 			}
 		}
-
-        return rate;
 	}
 
-	int setRate(int base)
+	void setRate(int base)
 	{
 		base_rate = base;
 		setRate();
 	}
 
-	int setCount(int counter)
+	void setCount(int counter)
 	{
 		game_count = counter;
 	}
 
-	int setNumPlayer(int num)
+	void setNumPlayer(int num)
 	{
 		nplayer = num;
 	}

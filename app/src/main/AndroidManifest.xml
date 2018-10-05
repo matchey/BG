@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.amsl.bg">
+    package="com.example.matchey.bg">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.amsl.bg.TitleActivity"
+            android:name="com.example.matchey.bg.TitleActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,16 +18,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.amsl.bg.MainActivity"
+            android:name="com.example.matchey.bg.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.example.matchey.bg.Facilitator" />
+        <activity
+            android:name="com.example.matchey.bg.InterimResultActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.amsl.bg.InterimResultActivity"
+            android:name="com.example.matchey.bg.AdminActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.example.amsl.bg.AdminActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name="com.example.amsl.bg.HistoryActivity" />
-        <activity android:name="com.example.amsl.bg.TeamActivity"></activity>
+        <activity android:name="com.example.matchey.bg.HistoryActivity" />
+        <activity android:name="com.example.matchey.bg.TeamActivity"></activity>
     </application>
 
 </manifest>

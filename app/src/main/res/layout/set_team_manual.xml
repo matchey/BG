@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/textView3"
-        android:layout_above="@+id/buttonTeamManual">
+        android:layout_above="@+id/buttonStartManual">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -94,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OK"
-        android:id="@+id/buttonTeamManual"
+        android:id="@+id/buttonStartManual"
         android:layout_marginBottom="46dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
