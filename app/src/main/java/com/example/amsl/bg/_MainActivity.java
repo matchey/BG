@@ -50,13 +50,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		process.initViews();
     }
 
-    @Override
-    protected void onPause() // 中断処理
-	{
-		super.onPause(); // 常にスーパクラスは最初に呼ぶ。
-		process.writeDBLast();
-    }
-
     public void onClick(View view) // 各ボタンタップ時の挙動
 	{
         switch (view.getId()) {
@@ -82,14 +75,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 
             // case R.id.buttonStart:
             case R.id.buttonStartAuto: // スコア入力画面表示
-				process.setTeamAuto();
 				process.inputScores();
                 break;
 
             // case R.id.buttonTeamManual:
             case R.id.buttonStartManual: // スコア入力画面表示
 				process.setTeamManual();
-				process.inputScores();
                 break;
 
             case R.id.buttonRate: // rate変更
@@ -97,11 +88,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                 break;
 
             case R.id.buttonNext: // チーム分け画面表示
-				process.setScores();
+				if(process.setScores()){
+					process.inputNumTeam();
+				}
                 break;
 
             case R.id.buttonFinish: // 結果画面表示
-				process.showResult();
+				if(process.setScores()){
+					process.showResult();
+				}
                 break;
 
             case R.id.buttonExit:
@@ -129,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	{
         menu.add(0, MENU_SELECT_LAST,  1, "interim result");
         menu.add(0, MENU_SELECT_TEAM,  2, "reconfirm team");
-        menu.add(0, MENU_SELECT_RESET, 2, "reset last scores");
+        menu.add(0, MENU_SELECT_RESET, 3, "reset last scores");
 
         return true;
     }
@@ -165,6 +160,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			process.showLastReslult();
             return false;
         }
+    }
+
+    @Override
+    protected void onPause() // 中断処理
+	{
+		super.onPause(); // 常にスーパクラスは最初に呼ぶ。
+		process.writeDBLast();
     }
 }; // class MainActivity
 
