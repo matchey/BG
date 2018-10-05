@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         process = new Facilitator();
 		process.initViews(this);
-        setContentView(R.layout.set_player);
     }
 
     public void onClick(View view) // 各ボタンタップ時の挙動

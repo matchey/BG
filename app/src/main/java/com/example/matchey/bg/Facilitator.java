@@ -56,17 +56,17 @@ public class Facilitator extends AppCompatActivity
 
     private View.OnClickListener ocl;
 
-    void initViews(View.OnClickListener oc)
+    void initViews(MainActivity ma)
     {
-        ocl = oc;
+        ocl = ma;
 
-        setContentView(R.layout.set_player);
+        ma.setContentView(R.layout.set_player);
 
-        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        mainLayout = (RelativeLayout)findViewById(R.id.backGround);
+        inputMethodManager = (InputMethodManager)ma.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mainLayout = (RelativeLayout)ma.findViewById(R.id.backGround);
 
-        findViewById(R.id.buttonNum).setOnClickListener(ocl);
-        Button name_button = (Button)findViewById(R.id.buttonName);
+        ma.findViewById(R.id.buttonNum).setOnClickListener(ocl);
+        Button name_button = (Button)ma.findViewById(R.id.buttonName);
         name_button.setVisibility(View.GONE);
     }
 
