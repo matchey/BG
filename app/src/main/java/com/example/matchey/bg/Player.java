@@ -21,7 +21,7 @@ public class Player implements Serializable
     String getName(){ return name; }
     int getTeam(){ return team; }
     int getScratch(){ return scratch; }
-    // int getScore(){ return score; }
+    int getScore(){ return score; }
     double getAveScratch(){ return ave_scratch; }
     double getAverage(){ return average; }
     int getHandicap(){ return handicap; }
@@ -46,6 +46,20 @@ public class Player implements Serializable
 	{
 		income_expenditure = x;
 		sum_IE += income_expenditure;
+	}
+
+	void resetLastScore(int game_count)
+	{
+		sum_scratch -= scratch;
+		sum -= score;
+		sum_IE -= income_expenditure;
+		if(game_count == 0){
+			ave_scratch = 0;
+			average = 0;
+		}else{
+			ave_scratch = 1.0 * sum_scratch / game_count;
+			average = 1.0 * sum / game_count;
+		}
 	}
 };
 

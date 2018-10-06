@@ -115,10 +115,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case MENU_SELECT_RESET:
+				process.resetLastScores();
 				break;
 
             default:
-				process.resetLastScore();
                 break;
         }
 

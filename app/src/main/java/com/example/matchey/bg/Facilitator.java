@@ -266,9 +266,14 @@ public class Facilitator
         if(checkFill(ID_SCORE)){
             ++game_count;
             if( ((CheckBox)ma.findViewById(R.id.checkHandi)).isChecked() ) {
-                // for(int i = 0;i < nplayer; ++i){
-                calc.setHandicap(players); // 入力できるようにする
-                // }
+				// if(flag_auto){
+                calc.setHandicap(players);
+				// }else{ // 入力できるようにする
+				// 	if(checkFill(ID_HANDI)){
+				// 		for(int i = 0;i < nplayer; ++i){
+				// 		}
+				// 	}
+				// }
             }
             for(int i = 0; i < nplayer; i++){
                 String str = ((EditText)ma.findViewById(ID_BEGIN*ID_SCORE + i)).getText().toString();
@@ -341,14 +346,16 @@ public class Facilitator
         ma.startActivityForResult(intent_team, 0);
     }
 
-    void resetLastScore()
+    void resetLastScores()
     {
         if( (game_count == count4reset) && (game_count > 0) ){
             --game_count;
             --count4reset;
             inputScores(true);
             deleteDBLast();
-            calc.resetLastScore(players);
+            for(int i = 0; i < nplayer; ++i){
+				players[i].resetLastScore(game_count);
+			}
         }
     }
 
