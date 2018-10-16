@@ -23,7 +23,7 @@ public class InterimResultActivity extends AppCompatActivity implements OnClickL
         Intent intent = getIntent();
         Player[] players = (Player[]) intent.getSerializableExtra("PLAYER");
         int counter = intent.getIntExtra("COUNT",1);
-        int nplayer = intent.getIntExtra("NUMBER",0);
+        int nplayers = intent.getIntExtra("NUMBER",0);
         //int[] handicap = intent.getIntArrayExtra("HANDICAP");
 
         if(counter<1){
@@ -33,9 +33,9 @@ public class InterimResultActivity extends AppCompatActivity implements OnClickL
         findViewById(R.id.buttonBack).setOnClickListener(this);
         ViewGroup vg = (ViewGroup) findViewById(R.id.layoutInterim);
 
-        if(nplayer > 0) {
+        if(nplayers > 0) {
 
-            for (int i = 0; i < nplayer; i++) {
+            for (int i = 0; i < nplayers; i++) {
                 // 行を追加
                 getLayoutInflater().inflate(R.layout.interim_result, vg);
                 // 文字設定

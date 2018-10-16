@@ -33,8 +33,8 @@ import java.util.Random;
 
 public class Facilitator
 {
-    private int nplayer = 0; // number of players
-    private int nteam = 0;   // number of teams
+    private int nplayers = 0; // number of players
+    private int nteams = 0;   // number of teams
     private int game_count = 0;		// count of games
     private int rate_tap_count = 0;		// count of taps
     private int count4reset = 0;		// count of games
@@ -73,18 +73,18 @@ public class Facilitator
         EditText input = (EditText)ma.findViewById(R.id.editNum);
         String inputStr = input.getText().toString();
         if(inputStr.length() != 0){
-            nplayer = Integer.parseInt(inputStr);
+            nplayers = Integer.parseInt(inputStr);
         }
-        if(nplayer > 0){
-            players = new Player[nplayer];
-            calc.setNumPlayer(nplayer);
+        if(nplayers > 0){
+            players = new Player[nplayers];
+            calc.setNumPlayer(nplayers);
 
             inputMethodManager.hideSoftInputFromWindow
                     (mainLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             mainLayout.requestFocus();
             // TableLayoutのグループを取得
             ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutName);
-            for(int i = 0; i < nplayer; ++i){
+            for(int i = 0; i < nplayers; ++i){
                 players[i] = new Player();
                 // 行を追加
                 ma.getLayoutInflater().inflate(R.layout.edit_add, vg);
@@ -105,7 +105,7 @@ public class Facilitator
     void setPlayers()
     {
         if(checkFill(ID_NAME)){
-            for(int i = 0; i < nplayer; ++i){
+            for(int i = 0; i < nplayers; ++i){
                 String str = ((EditText)ma.findViewById(ID_BEGIN*ID_NAME + i)).getText().toString();
                 players[i].setName(str);
             }
@@ -121,8 +121,8 @@ public class Facilitator
         ma.findViewById(R.id.radioAuto).setOnClickListener(ma);
         ma.findViewById(R.id.buttonTeam).setOnClickListener(ma);
         ma.findViewById(R.id.buttonStartAuto).setOnClickListener(ma);
-        if(nteam != 0){
-            ((EditText)ma.findViewById(R.id.editText)).setText(String.valueOf(nteam));
+        if(nteams != 0){
+            ((EditText)ma.findViewById(R.id.editText)).setText(String.valueOf(nteams));
         }
         Button start_button = (Button)ma.findViewById(R.id.buttonStartAuto);
         start_button.setVisibility(View.GONE);
@@ -137,7 +137,7 @@ public class Facilitator
         ma.findViewById(R.id.radioManual).setOnClickListener(ma);
         // TableLayoutのグループを取得
         ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutTeamManual);
-        for(int i = 0; i < nplayer; ++i){
+        for(int i = 0; i < nplayers; ++i){
             // 行を追加
             ma.getLayoutInflater().inflate(R.layout.edit_add, vg);
             // 文字設定
@@ -155,9 +155,9 @@ public class Facilitator
         EditText input = (EditText)ma.findViewById(R.id.editText);
         String inputStr = input.getText().toString();
         if(inputStr.length() != 0){
-            nteam = Integer.parseInt(inputStr);
+            nteams = Integer.parseInt(inputStr);
         }
-        if(!(nteam < 1 || nplayer < nteam)){
+        if(!(nteams < 1 || nplayers < nteams)){
             inputMethodManager.hideSoftInputFromWindow
                     (mainLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             mainLayout.requestFocus();
@@ -168,7 +168,7 @@ public class Facilitator
 
             for(int i = 0; i < 1; ++i){
                 TableRow tableRow = new TableRow(ma);
-                for(int iCol = 0; iCol < nteam; ++iCol){
+                for(int iCol = 0; iCol != nteams; ++iCol){
                     TextView text = new TextView(ma);
                     text.setText(String.format(Locale.getDefault(), "team%d", iCol+1));
                     tableRow.addView(text);
@@ -178,17 +178,17 @@ public class Facilitator
             int i = 0;
             while(true){
                 TableRow tableRow = new TableRow(ma);
-                for(int iCol = 0; iCol < nteam; ++iCol){
+                for(int iCol = 0; iCol != nteams; ++iCol){
                     TextView text = new TextView(ma);
                     text.setText(players[i].getName());
                     tableRow.addView(text);
                     ++i;
-                    if(i == nplayer){
+                    if(i == nplayers){
                         break;
                     }
                 }
                 vg.addView(tableRow);
-                if(i == nplayer){
+                if(i == nplayers){
                     i = 0;
                     break;
                 }
@@ -202,7 +202,7 @@ public class Facilitator
     void setTeamManual() // string ならPlayerには0~nで割り当て
     {
         if(checkFill(ID_TEAM)){
-            for(int i = 0; i < nplayer; ++i){
+            for(int i = 0; i < nplayers; ++i){
                 String str = ((EditText)ma.findViewById(ID_BEGIN*ID_TEAM + i)).getText().toString();
                 players[i].setTeam(Integer.parseInt(str));
             }
@@ -270,12 +270,12 @@ public class Facilitator
                 calc.setHandicap(players);
 				// }else{ // 入力できるようにする
 				// 	if(checkFill(ID_HANDI)){
-				// 		for(int i = 0;i < nplayer; ++i){
+				// 		for(int i = 0;i < nplayers; ++i){
 				// 		}
 				// 	}
 				// }
             }
-            for(int i = 0; i < nplayer; i++){
+            for(int i = 0; i < nplayers; i++){
                 String str = ((EditText)ma.findViewById(ID_BEGIN*ID_SCORE + i)).getText().toString();
                 players[i].setScratch(Integer.parseInt(str), game_count);
             }
@@ -308,7 +308,7 @@ public class Facilitator
 
         ma.findViewById(R.id.buttonExit).setOnClickListener(ma);
         ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutResult);
-        for(int i = 0; i < nplayer; i++){
+        for(int i = 0; i < nplayers; i++){
             ma.getLayoutInflater().inflate(R.layout.result, vg);
             TableRow tr = (TableRow)vg.getChildAt(i+1);
             ((TextView)(tr.getChildAt(0))).setText(players[i].getName());
@@ -331,7 +331,7 @@ public class Facilitator
     void showLastResult() // 前回の収支確認
     {
         Intent intent = new Intent(ma, InterimResultActivity.class);
-        intent.putExtra("NUMBER", nplayer);
+        intent.putExtra("NUMBER", nplayers);
         intent.putExtra("PLAYER", players);
         intent.putExtra("COUNT",  game_count);
         ma.startActivityForResult(intent, 0);
@@ -340,8 +340,8 @@ public class Facilitator
     void showLastTeam()
     {
         Intent intent_team = new Intent(ma, TeamActivity.class);
-        intent_team.putExtra("p_NUM", nplayer);
-        intent_team.putExtra("t_NUM", nteam);
+        intent_team.putExtra("p_NUM", nplayers);
+        intent_team.putExtra("t_NUM", nteams);
         intent_team.putExtra("PLAYER", players);
         ma.startActivityForResult(intent_team, 0);
     }
@@ -353,7 +353,7 @@ public class Facilitator
             --count4reset;
             inputScores(true);
             deleteDBLast();
-            for(int i = 0; i < nplayer; ++i){
+            for(int i = 0; i < nplayers; ++i){
 				players[i].resetLastScore(game_count);
 			}
         }
@@ -368,7 +368,7 @@ public class Facilitator
             updateValues.put("delete_flg", 1);
             db.update("personal_data", updateValues, "delete_flg=?", new String[] { "0" });
             Cursor cursor;
-            for(int i = 0; i < nplayer; ++i){
+            for(int i = 0; i < nplayers; ++i){
                 cursor = db.query("personal_data", new String[]{"_id", "name"},
                         "name = ?", new String[]{ players[i].getName() }, null, null, null);
                 ContentValues values = new ContentValues();
@@ -404,7 +404,7 @@ public class Facilitator
         textView.setText(String.format(Locale.getDefault(),
                 "input player's score of %d %s game", game_count+1, ordinalNum(game_count+1)));
         ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutScore);
-        for(int i = 0; i < nplayer; ++i){
+        for(int i = 0; i < nplayers; ++i){
             ma.getLayoutInflater().inflate(R.layout.edit_add, vg); // 行を追加
             TableRow tr = (TableRow)vg.getChildAt(i); // 文字設定
             String str;
@@ -424,12 +424,12 @@ public class Facilitator
     private boolean checkFill(int type) // EditTextが全部埋まってるか
     {
         boolean flag = false;
-        for(int i = 0;i < nplayer; ++i){
+        for(int i = 0;i < nplayers; ++i){
             EditText input = (EditText)ma.findViewById(ID_BEGIN*type + i);
             if(input.getText().toString().equals("")){
                 break;
             }
-            if(i == nplayer - 1){
+            if(i == nplayers - 1){
                 flag = true;
             }
         }
@@ -440,12 +440,12 @@ public class Facilitator
     {
         int team = 1;
 
-        shuffle(players, nplayer);
+        shuffle(players, nplayers);
 
-        for(int i = 0; i < nplayer; ++i){
+        for(int i = 0; i < nplayers; ++i){
             players[i].setTeam(team);
             team += 1;
-            if(team > nteam){
+            if(team > nteams){
                 team = 1;
             }
         }
@@ -468,7 +468,7 @@ public class Facilitator
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(ma); // インスタンス作成
         db = helper.getWritableDatabase(); // 読み書き出来るように開く
         Cursor cursor; // レコードを検索してカーソルを作成
-        for(int i = 0; i < nplayer; i++){
+        for(int i = 0; i < nplayers; i++){
             cursor = db.query("personal_data", new String[]{"_id", "name", "result", "ave",
                             "count", "over_flg"}, "name = ?", new String[]{ players[i].getName() },
                     null, null, null);
@@ -523,7 +523,7 @@ public class Facilitator
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(ma); // インスタンス作成
         db = helper.getWritableDatabase(); // 読み書き出来るように開く
         Cursor cursor; // レコードを検索してカーソルを作成
-        for(int i = 0; i < nplayer; i++){
+        for(int i = 0; i < nplayers; i++){
             cursor = db.query("personal_data", new String[]{"_id", "name", "result", "ave",
                             "count", "over_flg"}, "name = ?", new String[]{ players[i].getName() },
                     null, null, null);

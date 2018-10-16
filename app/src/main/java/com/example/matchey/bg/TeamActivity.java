@@ -42,7 +42,7 @@ public class TeamActivity extends AppCompatActivity implements View.OnClickListe
             }
             //for (int iRow = 0; iRow < 3; iRow++) {
             int i = 0;
-            while (true) {
+            while (true) { // TeamManualのときは??
                 TableRow tableRow = new TableRow(this);
                 for (int iCol = 0; iCol < num_team; iCol++) {
                     TextView text = new TextView(this);
