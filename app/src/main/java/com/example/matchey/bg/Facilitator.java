@@ -42,6 +42,7 @@ public class Facilitator
     private static final int ID_NAME  = 1;  // viewID of EditText
     private static final int ID_TEAM  = 2;  // viewID of EditText
     private static final int ID_SCORE = 3;  // viewID of EditText
+    private static final int ID_HANDICAP = 4;  // viewID of EditText
 
     private InputMethodManager inputMethodManager;
     private RelativeLayout mainLayout;
@@ -139,13 +140,16 @@ public class Facilitator
         ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutTeamManual);
         for(int i = 0; i < nplayers; ++i){
             // 行を追加
-            ma.getLayoutInflater().inflate(R.layout.edit_add, vg);
-            // 文字設定
+            ma.getLayoutInflater().inflate(R.layout.name_team, vg);
             TableRow tr = (TableRow)vg.getChildAt(i);
+
+            ((TextView)(tr.getChildAt(0))).setText(players[i].getName());
+
+            // 文字設定
             String str = String.format(Locale.getDefault(), "input %s's team", players[i].getName());
-            ((EditText)(tr.getChildAt(0))).setHint(str);
-            ((EditText)(tr.getChildAt(0))).setInputType(InputType.TYPE_CLASS_NUMBER);
-            ((EditText)(tr.getChildAt(0))).setId(ID_BEGIN*ID_TEAM + i);
+            ((EditText)(tr.getChildAt(1))).setHint(str);
+            ((EditText)(tr.getChildAt(1))).setInputType(InputType.TYPE_CLASS_NUMBER);
+            ((EditText)(tr.getChildAt(1))).setId(ID_BEGIN*ID_TEAM + i);
         }
     }
 
@@ -403,21 +407,11 @@ public class Facilitator
         TextView textView = (TextView)ma.findViewById(R.id.textCnt);
         textView.setText(String.format(Locale.getDefault(),
                 "input player's score of %d %s game", game_count+1, ordinalNum(game_count+1)));
+
         ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutScore);
 
-//        for(int i = 0; i != nplayers; ++i){
-//            TableRow tableRow = new TableRow(ma);
-//            TextView text = new TextView(ma);
-//
-//            text.setText(String.format(Locale.getDefault(), players[i].getName()));
-//            tableRow.addView(text);
-//            vg.addView(tableRow);
-//
-//
-//        }
-
         for(int i = 0; i != nplayers; ++i){
-            ma.getLayoutInflater().inflate(R.layout.edit_add, vg); // 行を追加
+            ma.getLayoutInflater().inflate(R.layout.name_score_handicap, vg); // 行を追加
             TableRow tr = (TableRow)vg.getChildAt(i); // 文字設定
             String str;
 
@@ -435,9 +429,9 @@ public class Facilitator
             ((EditText)(tr.getChildAt(1))).setId(ID_BEGIN*ID_SCORE + i);
 
             str = String.valueOf(players[i].getHandicap());
-            ((EditText)(tr.getChildAt(2))).setText(str)
+            ((EditText)(tr.getChildAt(2))).setText(str);
             ((EditText)(tr.getChildAt(2))).setInputType(InputType.TYPE_CLASS_NUMBER);
-            ((EditText)(tr.getChildAt(2))).setId(ID_BEGIN*ID_SCORE + i);
+            ((EditText)(tr.getChildAt(2))).setId(ID_BEGIN*ID_HANDICAP + i);
         }
     }
 
