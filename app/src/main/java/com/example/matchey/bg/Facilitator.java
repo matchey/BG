@@ -420,6 +420,9 @@ public class Facilitator
             ma.getLayoutInflater().inflate(R.layout.edit_add, vg); // 行を追加
             TableRow tr = (TableRow)vg.getChildAt(i); // 文字設定
             String str;
+
+            ((TextView)(tr.getChildAt(0))).setText(players[i].getName());
+
             if(flag_reset){
                 str = String.format(Locale.getDefault(),
                         "input %s's score (%d)", players[i].getName(), players[i].getScratch());
@@ -427,9 +430,14 @@ public class Facilitator
                 str = String.format(Locale.getDefault(),
                         "input %s's score", players[i].getName());
             }
-            ((EditText)(tr.getChildAt(0))).setHint(str);
-            ((EditText)(tr.getChildAt(0))).setInputType(InputType.TYPE_CLASS_NUMBER);
-            ((EditText)(tr.getChildAt(0))).setId(ID_BEGIN*ID_SCORE + i);
+            ((EditText)(tr.getChildAt(1))).setHint(str);
+            ((EditText)(tr.getChildAt(1))).setInputType(InputType.TYPE_CLASS_NUMBER);
+            ((EditText)(tr.getChildAt(1))).setId(ID_BEGIN*ID_SCORE + i);
+
+            str = String.valueOf(players[i].getHandicap());
+            ((EditText)(tr.getChildAt(2))).setText(str)
+            ((EditText)(tr.getChildAt(2))).setInputType(InputType.TYPE_CLASS_NUMBER);
+            ((EditText)(tr.getChildAt(2))).setId(ID_BEGIN*ID_SCORE + i);
         }
     }
 
