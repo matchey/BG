@@ -429,7 +429,7 @@ public class Facilitator
             ((EditText)(tr.getChildAt(1))).setId(ID_BEGIN*ID_SCORE + i);
 
             str = String.valueOf(players[i].getHandicap());
-            ((EditText)(tr.getChildAt(2))).setText(str);
+            ((EditText)(tr.getChildAt(2))).setHint(str);
             ((EditText)(tr.getChildAt(2))).setInputType(InputType.TYPE_CLASS_NUMBER);
             ((EditText)(tr.getChildAt(2))).setId(ID_BEGIN*ID_HANDICAP + i);
         }
