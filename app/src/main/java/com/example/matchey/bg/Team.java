@@ -3,7 +3,6 @@ package com.example.matchey.bg;
 // Calculatorから呼び出すclass
 class Team
 {
-    // private int id;					// 0, 1, ..., nteams
     private int nplayers = 0;		// number of players in team
     private int sum = 0; 			// team's score sum
     private double average = 0.0;	// team's score average (include handicap)
@@ -16,10 +15,6 @@ class Team
 	// 	sum = 0;
 	// 	average = 0;
 	// 	sum_IE = 0;
-	// }
-	// void setId(int id)
-	// {
-	// 	id = x;
 	// }
 
     void addScore(int x)

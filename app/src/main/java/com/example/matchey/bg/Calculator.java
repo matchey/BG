@@ -3,11 +3,6 @@ package com.example.matchey.bg;
 // import android.util.Log;
 import android.util.SparseArray;
 import java.lang.Math;
-// import static java.lang.Math.exp;
-// import java.util.Map;
-// import java.util.Map.Entry;
-// import java.util.HashMap;
-// import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -102,7 +97,6 @@ class Calculator
 
 		List<Integer> sorted = new ArrayList<>();
 
-		// int team_id = 0;
 		int score_sum = 0;
 		int nplayers_max = 0;
 		for(int i = 0; i != nteams; ++i){ // 人数maxをセット
@@ -110,14 +104,12 @@ class Calculator
 				nplayers_max = teams.valueAt(i).getNumPlayer();
 			}
 			score_sum += teams.valueAt(i).getSum();
-			// t.getValue().setId(team_id++);
 			sorted.add(teams.keyAt(i));
 		}
 
 		double score_ave = 1.0 * score_sum / nplayers; // 全チームのアベをセット
 
 		int sum_IE = 0;
-		// for(Entry<Integer, Team> t : teams.entrySet())
 		for(int i = 0; i != nteams; ++i){ // チームごとの収支をセット
 			double ie = rate * (teams.valueAt(i).getAverage() - score_ave)
 					* nplayers_max / teams.valueAt(i).getNumPlayer() / 10.0;
@@ -179,7 +171,7 @@ class Calculator
 		@Override
 		public int compare(Player p1, Player p2)
 		{
-			return p1.getScore() - p2.getScore();
+			return p2.getScore() - p1.getScore();
 		}
 	};
 //	private Comparator<Team> teamComparator = new Comparator<Team>() {
@@ -193,7 +185,7 @@ class Calculator
 		// bubble sort
 		for(int i = 0; i != nteams-1; ++i){
 			for(int j = i+1; j != nteams; ++j){
-				if( 0 < predicate * (t.valueAt(i).getIE() - t.valueAt(j).getIE()) ){
+				if( 0 < predicate * (t.get(names.get(i)).getIE() - t.get(names.get(j)).getIE()) ){
 					int tmp = names.get(i);
 					names.set(i, names.get(j)) ;
 					names.set(j, tmp);
@@ -201,16 +193,5 @@ class Calculator
 			}
 		}
 	}
-	// private void sort(Player[] players)
-	// {
-	// 	// bubble sort
-	// 	for(int i = 0; i < nplayers-1; ++i){
-	// 		for(int j = i+1; j < nplayers; ++j){
-	// 			if(){
-	// 				Player tmp = players[i].clone();
-	// 			}
-	// 		}
-	// 	}
-	// }
 };
 

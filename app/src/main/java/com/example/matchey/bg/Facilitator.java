@@ -404,7 +404,19 @@ public class Facilitator
         textView.setText(String.format(Locale.getDefault(),
                 "input player's score of %d %s game", game_count+1, ordinalNum(game_count+1)));
         ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutScore);
-        for(int i = 0; i < nplayers; ++i){
+
+//        for(int i = 0; i != nplayers; ++i){
+//            TableRow tableRow = new TableRow(ma);
+//            TextView text = new TextView(ma);
+//
+//            text.setText(String.format(Locale.getDefault(), players[i].getName()));
+//            tableRow.addView(text);
+//            vg.addView(tableRow);
+//
+//
+//        }
+
+        for(int i = 0; i != nplayers; ++i){
             ma.getLayoutInflater().inflate(R.layout.edit_add, vg); // 行を追加
             TableRow tr = (TableRow)vg.getChildAt(i); // 文字設定
             String str;
