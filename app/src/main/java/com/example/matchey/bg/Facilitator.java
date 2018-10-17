@@ -81,7 +81,7 @@ public class Facilitator
             calc.setNumPlayer(nplayers);
 
             inputMethodManager.hideSoftInputFromWindow
-                    (mainLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                (mainLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             mainLayout.requestFocus();
             // TableLayoutのグループを取得
             ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutName);
@@ -163,7 +163,7 @@ public class Facilitator
         }
         if(!(nteams < 1 || nplayers < nteams)){
             inputMethodManager.hideSoftInputFromWindow
-                    (mainLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                (mainLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             mainLayout.requestFocus();
 
             assignTeam();
@@ -214,7 +214,7 @@ public class Facilitator
         }
     }
 
-    void inputScores()
+    void inputScores() // default引数 : flag_reset = false
     {
         inputScores(false);
     }
@@ -269,17 +269,28 @@ public class Facilitator
     {
         if(checkFill(ID_SCORE)){
             ++game_count;
-            if( ((CheckBox)ma.findViewById(R.id.checkHandi)).isChecked() ) {
-				// if(flag_auto){
-                calc.setHandicap(players);
-				// }else{ // 入力できるようにする
-				// 	if(checkFill(ID_HANDI)){
-				// 		for(int i = 0;i < nplayers; ++i){
-				// 		}
-				// 	}
-				// }
+            int conditions = ((CheckBox)ma.findViewById(R.id.checkHandi)).isChecked() ? 1 : -1
+                                                             + checkFill(ID_HANDICAP) ? 1 : -1;
+            switch(conditions){
+                case 0:
+                    return false;
+
+                case 2:
+                    for(int i = 0; i != nplayers; i++){
+                        String handicap = ((EditText)ma.findViewById(ID_BEGIN*ID_HANDICAP + i))
+                                                                            .getText().toString();
+                        players[i].setHandicap(Integer.parseInt(handicap));
+                    }
+                    break;
+
+                case -2:
+                    calc.setHandicap(0);
+                    break;
+
+                default:
+                    break;
             }
-            for(int i = 0; i < nplayers; i++){
+            for(int i = 0; i != nplayers; i++){
                 String str = ((EditText)ma.findViewById(ID_BEGIN*ID_SCORE + i)).getText().toString();
                 players[i].setScratch(Integer.parseInt(str), game_count);
             }
@@ -408,6 +419,8 @@ public class Facilitator
         textView.setText(String.format(Locale.getDefault(),
                 "input player's score of %d %s game", game_count+1, ordinalNum(game_count+1)));
 
+        calc.setHandicap(players);
+
         ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutScore);
 
         for(int i = 0; i != nplayers; ++i){
@@ -438,7 +451,7 @@ public class Facilitator
     private boolean checkFill(int type) // EditTextが全部埋まってるか
     {
         boolean flag = false;
-        for(int i = 0;i < nplayers; ++i){
+        for(int i = 0;i != nplayers; ++i){
             EditText input = (EditText)ma.findViewById(ID_BEGIN*type + i);
             if(input.getText().toString().equals("")){
                 break;
@@ -456,7 +469,7 @@ public class Facilitator
 
         int team = 0;
 
-        for(int i = 0; i < nplayers; ++i){
+        for(int i = 0; i != nplayers; ++i){
             players[i].setTeam(team);
             ++team;
             if(team == nteams){
@@ -584,7 +597,8 @@ public class Facilitator
     }
 
     private static final long CLICK_DELAY = 1000;
-    private static long mOldClickTime;
+    // private static long mOldClickTime;
+    private static long mOldClickTime = System.currentTimeMillis();
     private static boolean isClickEvent() // 連続タップ検出
     {
         long time = System.currentTimeMillis();

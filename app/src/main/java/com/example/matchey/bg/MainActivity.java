@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import android.content.Intent;
+
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,12 +25,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	{
         super.onCreate(savedInstanceState);
         process = new Facilitator();
+
+        Intent intent = getIntent();
+        // Player[] players = (Player[]) intent.getSerializableExtra("PLAYER");
+        // int counter = intent.getIntExtra("COUNT",1);
+        // int nplayers = intent.getIntExtra("NUMBER",0);
+        // process.setConfig(base_rate, prob, ratio);
+        // titleActivity からdefault値を渡そう
+
 		process.initViews(this);
     }
 
     public void onClick(View view) // 各ボタンタップ時の挙動
 	{
-        switch (view.getId()) {
+        switch(view.getId()){
             case R.id.buttonNum: // 人数決定
 				process.inputNames();
                 break;

@@ -81,6 +81,13 @@ class Calculator
 		}
 	}
 
+	void setHandicap(int handicap)
+    {
+		for(int i = 0; i != nplayers; ++i){
+			players[i].setHandicap(handicap);
+		}
+    }
+
 	void teamCalc(Player[] players)
 	{
 		teams.clear();
