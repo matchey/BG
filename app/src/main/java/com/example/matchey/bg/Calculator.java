@@ -1,18 +1,29 @@
 package com.example.matchey.bg;
 
+// import android.util.Log;
+import android.util.SparseArray;
 import java.lang.Math;
-import static java.lang.Math.exp;
+// import static java.lang.Math.exp;
+// import java.util.Map;
+// import java.util.Map.Entry;
+// import java.util.HashMap;
+// import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 class Calculator
 {
 	private int rate = 10;
 	private int base_rate = 10;
-	private static final double prob[] = {0.05, 0.12, 0.2, 0.01, 0.0};
+	private static final double prob[] = {0.05, 0.1, 0.15, 0.02, 0.0};
 	private static final double ratio[] = {1.5, 2.0, 3.0, 5.0, 10.0};
 	// private int game_count = 0;
 	private int nplayers = 0;
+	private int nteams = 0;
 
-	private Map<int, Team> teams = new HashMap<int, Team>;
+	private SparseArray<Team> teams = new SparseArray<>();
 
 	int getRate() { return rate; }
 
@@ -22,12 +33,16 @@ class Calculator
 
 		int size = prob.length;
 
-		double sum = 0.0;
-		for(int i = 0; i != size; ++i){
-			sum += prob[i];
-		}
+//		double sum = 0.0;
+//		for(int i = 0; i != size; ++i){
+//			sum += prob[i];
+//		}
+//
+//		for(int i = 0; i != size; ++i){
+//			prob[i] /= sum;
+//		}
 
-		double t = Math.random() * sum;
+		double t = Math.random();
 
 		double p = 0.0;
 		for(int i = 0; i != size; ++i){
@@ -76,85 +91,116 @@ class Calculator
 		teams.clear();
 
 		for(int i = 0; i != nplayers; ++i){ // Map teamsを用意
-			Team team = new Team();
-			teams.put(players[i].getTeam(), team);
+			teams.put(players[i].getTeam(), new Team());
 		}
+
+		nteams = teams.size();
 
 		for(int i = 0; i != nplayers; ++i){ // それぞれのチーム合計スコアをセット
-			teams.get(players[i].getTeam()).addScore(players[i].getScore());
+			teams.get( players[i].getTeam() ).addScore( players[i].getScore() ); // teamから検索
 		}
 
-		ArrayList<int> sorted = new ArrayList<>();
+		List<Integer> sorted = new ArrayList<>();
 
 		// int team_id = 0;
 		int score_sum = 0;
 		int nplayers_max = 0;
-		for(Entry<int, Team> t: teams.entrySet()){ // 人数maxをセット
-			if(nplayers_max < t.getValue().getNumPlayer()){
-				nplayers_max = t.getValue().getNumPlayer();
+		for(int i = 0; i != nteams; ++i){ // 人数maxをセット
+			if(nplayers_max < teams.valueAt(i).getNumPlayer()){
+				nplayers_max = teams.valueAt(i).getNumPlayer();
 			}
-			score_sum += t.getValue().getSum();
+			score_sum += teams.valueAt(i).getSum();
 			// t.getValue().setId(team_id++);
-			sorted.add(t.getKey());
+			sorted.add(teams.keyAt(i));
 		}
 
 		double score_ave = 1.0 * score_sum / nplayers; // 全チームのアベをセット
 
 		int sum_IE = 0;
-		for(Team t : teams){ // チームごとの収支をセット
-			double ie = rate * (t.getAverage() - score_ave) * nplayers_max;
-			t.setIE(ie);
-			sum_IE += t.getIE();
+		// for(Entry<Integer, Team> t : teams.entrySet())
+		for(int i = 0; i != nteams; ++i){ // チームごとの収支をセット
+			double ie = rate * (teams.valueAt(i).getAverage() - score_ave)
+					* nplayers_max / teams.valueAt(i).getNumPlayer() / 10.0;
+			if(nteams == 2) {
+				ie *= 2.0;
+			}
+			teams.valueAt(i).setIE(ie);
+			sum_IE += teams.valueAt(i).getIE();
 		}
 
 		// 過不足を調整
-		sign = Integer.signum(sum_IE); // import java.lang.Integer.signum
+		int sign = Integer.signum(sum_IE);
 		sort(teams, sorted, sign);
-		while(sum_IE != 0){
-			for(Entry<int, Team> t: teams.entrySet()){
-				t.getValue.addIE(-sign);
+		boolean flag = (sum_IE != 0);
+		while(flag){
+			for(int team : sorted){
+				teams.get(team).addIE(-sign);
+				sum_IE -= sign;
+				flag = (sum_IE != 0);
+				if(!flag){
+					break;
+				}
 			}
-			sum_IE -= sign;
 		}
 	}
 
 	void playerCalc(Player[] players)
 	{
-		Arrays.sort(players, (a,b)-> a.getScore() - b.getScore());
+		int[] ie = new int[nplayers];
 
-		for(Entry<int, Team> t: teams.entrySet()){
-			int ie_abs = t.getSign() * t.getIE();
-			while(0 != ie_abs){
-				for(int i = 0; i != nplayers; ++i){
-					int id = i;
-					if(t.getSign() < 0){
-						id = (nplayers - 1) - i; // 逆順
-					}
-					if(t.getKey() == players[i].getTeam()){
-						players[i].addIE(t.getValue().getSign());
+		// Arrays.sort(players, (a,b)-> a.getScore() - b.getScore());
+		Arrays.sort(players, playerComparator);
+
+		for(int i = 0; i != nteams; ++i){
+			int sign = teams.valueAt(i).getSign();
+			int ie_abs =  sign * teams.valueAt(i).getIE();
+			boolean flag = (ie_abs != 0);
+			while(flag){
+				int id = sign < 0 ? nplayers - 1 : 0;
+				for(int loop_counter = 0; flag && loop_counter != nplayers; ++loop_counter){
+					if(teams.keyAt(i) == players[id].getTeam()){
+						ie[id] += sign;
 						--ie_abs;
+						flag = (ie_abs != 0);
 					}
+					id += sign;
 				}
 			}
+		}
+
+		for(int i = 0; i != nplayers; ++i){
+			players[i].setIncomeExpenditure(ie[i] * 10);
 		}
 	}
 	
 	// private
-	private void sort(Map<int, Team> map, ArrayList<int> arr, int predicate)
+	private Comparator<Player> playerComparator = new Comparator<Player>()
 	{
-		int nteams = arr.size();
+		@Override
+		public int compare(Player p1, Player p2)
+		{
+			return p1.getScore() - p2.getScore();
+		}
+	};
+//	private Comparator<Team> teamComparator = new Comparator<Team>() {
+//		@Override
+//		public int compare(Team t1, Team t2) {
+//			return t1.getIE() - t2.getIE();
+//		}
+//	};
+	private void sort(SparseArray<Team> t, List<Integer> names,  int predicate)
+	{
 		// bubble sort
-		for(int i = 0; i < nteams-1; ++i){
-			for(int j = i+1; j < nteams; ++j){
-				if( 0 < predicate * (map[arr[i]] - map[arr[j]]) ){
-					int tmp = arr[i];
-					arr[i] = arr[j];
-					arr[j] = tmp;
+		for(int i = 0; i != nteams-1; ++i){
+			for(int j = i+1; j != nteams; ++j){
+				if( 0 < predicate * (t.valueAt(i).getIE() - t.valueAt(j).getIE()) ){
+					int tmp = names.get(i);
+					names.set(i, names.get(j)) ;
+					names.set(j, tmp);
 				}
 			}
 		}
 	}
-
 	// private void sort(Player[] players)
 	// {
 	// 	// bubble sort

@@ -279,7 +279,7 @@ public class Facilitator
                 String str = ((EditText)ma.findViewById(ID_BEGIN*ID_SCORE + i)).getText().toString();
                 players[i].setScratch(Integer.parseInt(str), game_count);
             }
-            calc.setCount(game_count);
+            // calc.setCount(game_count);
             calc.teamCalc(players);
             calc.playerCalc(players);
 
@@ -438,15 +438,15 @@ public class Facilitator
 
     private void assignTeam() // throws IOException
     {
-        int team = 1;
-
         shuffle(players, nplayers);
+
+        int team = 0;
 
         for(int i = 0; i < nplayers; ++i){
             players[i].setTeam(team);
-            team += 1;
-            if(team > nteams){
-                team = 1;
+            ++team;
+            if(team == nteams){
+                team = 0;
             }
         }
     }
