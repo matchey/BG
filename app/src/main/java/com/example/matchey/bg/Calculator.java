@@ -14,7 +14,6 @@ class Calculator
 	private int base_rate = 10;
 	private double prob[] = {0.05, 0.1, 0.15, 0.02, 0.0};
 	private double ratio[] = {1.5, 2.0, 3.0, 5.0, 10.0};
-	// private int game_count = 0;
 	private int nplayers = 0;
 	private int nteams = 0;
 
@@ -65,11 +64,6 @@ class Calculator
 		setRate();
 	}
 
-	// void setCount(int counter)
-	// {
-	// 	game_count = counter;
-	// }
-
 	void setNumPlayer(int num)
 	{
 		nplayers = num;
@@ -77,18 +71,32 @@ class Calculator
 
 	void setHandicap(Player[] players)
 	{
-		double max = players[0].getAveScratch();
+        int range = 10; // const
+
+		double ave_min = players[0].getAveScratch();
+		double ave_max = players[0].getAveScratch();
 		for(int i = 1; i != nplayers; ++i){
-			if(max < players[i].getAveScratch()){
-				max = players[i].getAveScratch();
+			if(ave_min > players[i].getAveScratch()){
+				ave_min = players[i].getAveScratch();
+			}
+			if(ave_max < players[i].getAveScratch()){
+				ave_max = players[i].getAveScratch();
 			}
 		}
 
-		for(int i = 0; i != nplayers; ++i){
-			int handicap = (int)(max - players[i].getAveScratch());
-			handicap -= handicap % 10;
-			players[i].setHandicap(handicap);
-		}
+        double diff_max = ave_max - ave_min;
+
+        if(range < diff_max){
+            for(int i = 0; i != nplayers; ++i){
+                double diff = max - players[i].getAveScratch();
+                double target = max - range * diff / diff_max;
+                int handicap = (int)(target - players[i].getAveScratch());
+                handicap -= handicap % 10;
+                players[i].setHandicap(handicap);
+            }
+        }else{
+            setHandicap(players, 0);
+        }
 	}
 
 	void setHandicap(Player[] players, int handicap)
@@ -191,12 +199,7 @@ class Calculator
 			return p2.getScore() - p1.getScore();
 		}
 	};
-//	private Comparator<Team> teamComparator = new Comparator<Team>() {
-//		@Override
-//		public int compare(Team t1, Team t2) {
-//			return t1.getIE() - t2.getIE();
-//		}
-//	};
+
 	private void sort(SparseArray<Team> t, List<Integer> names,  int predicate)
 	{
 		// bubble sort

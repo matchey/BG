@@ -278,6 +278,7 @@ public class Facilitator
                                                              + (checkFill(ID_HANDICAP) ? 1 : -1);
             switch(conditions){
                 case 0:
+                    --game_count;
                     return false;
 
                 case 2:
@@ -293,13 +294,13 @@ public class Facilitator
                     break;
 
                 default:
+                    // never enter
                     break;
             }
             for(int i = 0; i != nplayers; i++){
                 String str = ((EditText)ma.findViewById(ID_BEGIN*ID_SCORE + i)).getText().toString();
                 players[i].setScratch(Integer.parseInt(str), game_count);
             }
-            // calc.setCount(game_count);
             calc.teamCalc(players);
             calc.playerCalc(players);
 
