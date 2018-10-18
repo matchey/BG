@@ -30,8 +30,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Player[] players = (Player[]) intent.getSerializableExtra("PLAYER");
         // int counter = intent.getIntExtra("COUNT",1);
         // int nplayers = intent.getIntExtra("NUMBER",0);
-        // process.setConfig(base_rate, prob, ratio);
-        // titleActivity からdefault値を渡そう
+        int base_rate = intent.getIntExtra("BASE", 10);
+        double[] prob = intent.getDoubleArrayExtra("PROB");
+        double[] ratio = intent.getDoubleArrayExtra("RATIO");
+        process.setConfig(base_rate, prob, ratio);
 
 		process.initViews(this);
     }

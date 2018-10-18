@@ -69,6 +69,11 @@ public class Facilitator
         name_button.setVisibility(View.GONE);
     }
 
+    void setConfig(int base, double[] prob, double[] ratio)
+    {
+        calc.setConfig(base, prob, ratio);
+    }
+
     void inputNames()
     {
         EditText input = (EditText)ma.findViewById(R.id.editNum);
@@ -269,8 +274,8 @@ public class Facilitator
     {
         if(checkFill(ID_SCORE)){
             ++game_count;
-            int conditions = ((CheckBox)ma.findViewById(R.id.checkHandi)).isChecked() ? 1 : -1
-                                                             + checkFill(ID_HANDICAP) ? 1 : -1;
+            int conditions = (((CheckBox)ma.findViewById(R.id.checkHandi)).isChecked() ? 1 : -1)
+                                                             + (checkFill(ID_HANDICAP) ? 1 : -1);
             switch(conditions){
                 case 0:
                     return false;
@@ -284,7 +289,7 @@ public class Facilitator
                     break;
 
                 case -2:
-                    calc.setHandicap(0);
+                    calc.setHandicap(players, 0);
                     break;
 
                 default:
@@ -443,7 +448,7 @@ public class Facilitator
 
             str = String.valueOf(players[i].getHandicap());
             ((EditText)(tr.getChildAt(2))).setHint(str);
-            ((EditText)(tr.getChildAt(2))).setInputType(InputType.TYPE_CLASS_NUMBER);
+            ((EditText)(tr.getChildAt(2))).setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
             ((EditText)(tr.getChildAt(2))).setId(ID_BEGIN*ID_HANDICAP + i);
         }
     }

@@ -5,17 +5,22 @@ import android.os.Bundle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+// import android.widget.TableLayout;
 
-public class AdminActivity extends AppCompatActivity implements View.OnclickListener
+import java.util.Locale;
+
+public class AdminActivity extends AppCompatActivity implements View.OnClickListener
 {
     private InputMethodManager inputMethodManager;
     private RelativeLayout mainLayout;
 
-    private int ID_BEGIN = 64; // viewID of EditText
-    private static final NRATIO = 5;
+    private static final int NRATIO = 5;
 	private int base_rate = 10;
 	private double prob[] = {0.05, 0.1, 0.15, 0.02, 0.0};
 	private double ratio[] = {1.5, 2.0, 3.0, 5.0, 10.0};
@@ -54,10 +59,13 @@ public class AdminActivity extends AppCompatActivity implements View.OnclickList
     {
         switch(view.getId()){
             case R.id.textTap:
-                setContentView(R.layout.activity_config);
-                findViewById(R.id.buttonStart).setOnClickListener(this);
-                findViewById(R.id.buttonBack).setOnClickListener(this);
-                // ID_BEGIN = (EditText)findViewById(R.id.editConfig).getID();
+                if(toSetting()){
+                    setContentView(R.layout.config_setting);
+                    mainLayout = (RelativeLayout) findViewById(R.id.backGround);
+                    findViewById(R.id.buttonStart).setOnClickListener(this);
+                    findViewById(R.id.buttonClose).setOnClickListener(this);
+                    // ID_BASE = (EditText)findViewById(R.id.editConfig).getID();
+                }
                 break;
 
             case R.id.buttonStart:
@@ -68,12 +76,14 @@ public class AdminActivity extends AppCompatActivity implements View.OnclickList
                     intent.putExtra("RATIO", ratio);
                     startActivityForResult(intent, 0);
                     finish();
+                }else {
+                    resetConfig();
                 }
                 break;
 
-            case R.id.buttonBack:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivityForResult(intent, 0);
+            case R.id.buttonClose:
+//                Intent intent = new Intent(this, MainActivity.class);
+//                startActivityForResult(intent, 0);
                 finish();
                 break;
 
@@ -84,38 +94,63 @@ public class AdminActivity extends AppCompatActivity implements View.OnclickList
 
     private boolean setConfig() // EditTextが全部埋まってるか
     {
-        int NITEMS = NRATIO * 2;
+        String etAlias;
+        int etId;
+        EditText input;
 
-        for(int i = 0; i != NITEMS; ++i){
-            EditText input = (EditText)findViewById(ID_BEGIN + i);
-            if(input.getText().toString().equals("")){
-                return false;
-            }
+        etId= R.id.base_rate;
+        input = (EditText)findViewById(etId);
+        if(input.getText().toString().equals("")){ return false; }
+        base_rate = Integer.parseInt(input.getText().toString());
+
+        for(int i = 0; i != NRATIO; ++i){
+            etAlias = String.format(Locale.US, "prob%d", i);
+            Log.v("string", etAlias);
+            etId = getResources().getIdentifier(etAlias, "id", "com.example.matchey.bg");
+
+            input = (EditText)findViewById(etId);
+            if(input.getText().toString().equals("")){ return false; }
+            prob[i] = Double.parseDouble(input.getText().toString());
         }
 
         for(int i = 0; i != NRATIO; ++i){
-            EditText input = (EditText)findViewById(ID_BEGIN + i);
-            prob[i] = Integer.parseInt(input);
-        }
+            etAlias = String.format(Locale.US, "ratio%d", i); // parseIntはできる...
+            etId = getResources().getIdentifier(etAlias, "id", "com.example.matchey.bg");
 
-        for(int i = 0; i != NRATIO; ++i){
-            EditText input = (EditText)findViewById(ID_BEGIN + NRATIO + i);
-            ratio[i] = Integer.parseInt(input);
+            input = (EditText)findViewById(etId);
+            if(input.getText().toString().equals("")){ return false; }
+            ratio[i] = Double.parseDouble(input.getText().toString());
         }
 
         return true;
     }
 
-    private toSetting()
+    private void resetConfig()
     {
+        int base_init = 10;
+        double prob_init[] = {0.05, 0.1, 0.15, 0.02, 0.0};
+        double ratio_init[] = {1.5, 2.0, 3.0, 5.0, 10.0};
+
+        base_rate = base_init;
+        prob = prob_init.clone();
+        ratio = ratio_init.clone();
+    }
+
+    private boolean toSetting()
+    {
+        boolean rtn = false;
+
         if( isClickEvent() ){
             rate_tap_count = 0;
         }else{
             ++rate_tap_count;
         }
-        if(rate_tap_count > 2){
+        if(rate_tap_count > 1){
             rate_tap_count = 0;
+            rtn = true;
         }
+
+        return rtn;
     }
 
     private static final long CLICK_DELAY = 1000;

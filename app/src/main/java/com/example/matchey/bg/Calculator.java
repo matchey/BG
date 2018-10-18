@@ -12,8 +12,8 @@ class Calculator
 {
 	private int rate = 10;
 	private int base_rate = 10;
-	private static final double prob[] = {0.05, 0.1, 0.15, 0.02, 0.0};
-	private static final double ratio[] = {1.5, 2.0, 3.0, 5.0, 10.0};
+	private double prob[] = {0.05, 0.1, 0.15, 0.02, 0.0};
+	private double ratio[] = {1.5, 2.0, 3.0, 5.0, 10.0};
 	// private int game_count = 0;
 	private int nplayers = 0;
 	private int nteams = 0;
@@ -22,20 +22,30 @@ class Calculator
 
 	int getRate() { return rate; }
 
+	void setConfig(int _b, double[] _p, double[] _r)
+	{
+		base_rate = _b;
+		prob = _p.clone();
+		ratio = _r.clone();
+	}
+
 	void setRate()
 	{
         rate = base_rate;
 
 		int size = prob.length;
 
-//		double sum = 0.0;
-//		for(int i = 0; i != size; ++i){
-//			sum += prob[i];
-//		}
-//
-//		for(int i = 0; i != size; ++i){
-//			prob[i] /= sum;
-//		}
+		double sum = 0.0;
+		for(int i = 0; i != size; ++i){
+			sum += prob[i];
+		}
+
+		if(sum > 1){
+            for(int i = 0; i != size; ++i){
+                prob[i] /= sum;
+            }
+
+        }
 
 		double t = Math.random();
 
@@ -81,7 +91,7 @@ class Calculator
 		}
 	}
 
-	void setHandicap(int handicap)
+	void setHandicap(Player[] players, int handicap)
     {
 		for(int i = 0; i != nplayers; ++i){
 			players[i].setHandicap(handicap);

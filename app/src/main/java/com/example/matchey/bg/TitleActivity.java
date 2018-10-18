@@ -34,7 +34,13 @@ public class TitleActivity extends AppCompatActivity implements OnClickListener{
     public void onClick(View v) {
 
         if(v==button_newgame){
+            int base_rate = 10;
+            double prob[] = {0.05, 0.1, 0.15, 0.02, 0.0};
+            double ratio[] = {1.5, 2.0, 3.0, 5.0, 10.0};
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("BASE", base_rate);
+            intent.putExtra("PROB", prob);
+            intent.putExtra("RATIO", ratio);
             startActivityForResult(intent, 0);
             finish();
         }else if(v==button_history){
