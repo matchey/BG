@@ -1,6 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/backGround"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:gravity="center_horizontal"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.matchey.bg.AdminActivity">
 
-</android.support.constraint.ConstraintLayout>
+
+    <TableLayout
+        android:id="@+id/Settingtable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/base"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="base rate" />
+
+            <EditText
+                android:id="@+id/base_rate"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:hint="10"
+                android:inputType="number"
+                android:text="10" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/prob"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:text="prob" />
+
+            <EditText
+                android:id="@+id/prob0"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="0.05"
+                android:inputType="numberDecimal"
+                android:text="0.05" />
+
+            <EditText
+                android:id="@+id/prob1"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="0.1"
+                android:inputType="numberDecimal"
+                android:text="0.1" />
+
+            <EditText
+                android:id="@+id/prob2"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="0.15"
+                android:inputType="numberDecimal"
+                android:text="0.15" />
+
+            <EditText
+                android:id="@+id/prob3"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="0.02"
+                android:inputType="numberDecimal"
+                android:text="0.02" />
+
+            <EditText
+                android:id="@+id/prob4"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="0.0"
+                android:inputType="numberDecimal"
+                android:text="0" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/ratio"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:text="ratio" />
+
+            <EditText
+                android:id="@+id/ratio0"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="1.5"
+                android:inputType="numberDecimal"
+                android:text="1.5" />
+
+            <EditText
+                android:id="@+id/ratio1"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="2"
+                android:inputType="numberDecimal"
+                android:text="2" />
+
+            <EditText
+                android:id="@+id/ratio2"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="3"
+                android:inputType="numberDecimal"
+                android:text="3" />
+
+            <EditText
+                android:id="@+id/ratio3"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="5"
+                android:inputType="numberDecimal"
+                android:text="5" />
+
+            <EditText
+                android:id="@+id/ratio4"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="10"
+                android:inputType="numberDecimal"
+                android:text="10" />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Settingtable"
+        android:layout_marginTop="35dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/buttonClose"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+
+        <Button
+            android:id="@+id/buttonStart"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:text="Start" />
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
+

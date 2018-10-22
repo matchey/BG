@@ -88,10 +88,11 @@ class Calculator
 
         if(range < diff_max){
             for(int i = 0; i != nplayers; ++i){
-                double diff = max - players[i].getAveScratch();
-                double target = max - range * diff / diff_max;
+                double diff = ave_max - players[i].getAveScratch();
+                double target = ave_max - range * diff / diff_max;
                 int handicap = (int)(target - players[i].getAveScratch());
                 handicap -= handicap % 10;
+                handicap = Math.max(handicap, 0);
                 players[i].setHandicap(handicap);
             }
         }else{

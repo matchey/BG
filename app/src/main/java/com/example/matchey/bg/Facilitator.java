@@ -304,6 +304,8 @@ public class Facilitator
             calc.teamCalc(players);
             calc.playerCalc(players);
 
+            calc.setHandicap(players); // 表示用
+
             writeDBPersonal();
 
             return true;
@@ -336,7 +338,7 @@ public class Facilitator
             String str = String.format(Locale.getDefault(), "%4.1f", players[i].getAveScratch());
             ((TextView)(tr.getChildAt(1))).setText(str);
             str = String.format(Locale.getDefault(),
-                    "%5d yen", (int)players[i].getIncomeExpenditure());
+                    "%5d yen", (int)players[i].getSumIE());
             ((TextView)(tr.getChildAt(2))).setText(str);
         }
     }
@@ -377,6 +379,7 @@ public class Facilitator
             for(int i = 0; i < nplayers; ++i){
 				players[i].resetLastScore(game_count);
 			}
+            calc.setHandicap(players);
         }
     }
 
@@ -424,8 +427,6 @@ public class Facilitator
         TextView textView = (TextView)ma.findViewById(R.id.textCnt);
         textView.setText(String.format(Locale.getDefault(),
                 "input player's score of %d %s game", game_count+1, ordinalNum(game_count+1)));
-
-        calc.setHandicap(players);
 
         ViewGroup vg = (ViewGroup)ma.findViewById(R.id.layoutScore);
 

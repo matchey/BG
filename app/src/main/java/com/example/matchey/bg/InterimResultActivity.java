@@ -46,7 +46,7 @@ public class InterimResultActivity extends AppCompatActivity implements OnClickL
                 //((TextView) (tr.getChildAt(0))).setText(player[i].name);
                 ((TextView) (tr.getChildAt(0))).setText(str);
 
-                str = String.format(Locale.getDefault(), "%4.1f", 1f * players[i].getAverage());
+                str = String.format(Locale.getDefault(), "%4.1f", 1f * players[i].getAveScratch());
                 //str = String.format(Locale.getDefault(), "%4.1f", 1f * player[i].average);
                 ((TextView) (tr.getChildAt(1))).setText(str);
 
