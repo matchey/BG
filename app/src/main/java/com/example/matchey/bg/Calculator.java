@@ -138,8 +138,8 @@ class Calculator
 		int sum_IE = 0;
 		for(int i = 0; i != nteams; ++i){ // チームごとの収支をセット
 			double ie = rate * (teams.valueAt(i).getAverage() - score_ave)
-					* nplayers_max / teams.valueAt(i).getNumPlayer() / 10.0;
-			if(nteams == 2) {
+					* nplayers_max * nplayers_max / teams.valueAt(i).getNumPlayer() / 10.0;
+			if(nteams == 2){
 				ie *= 2.0;
 			}
 			teams.valueAt(i).setIE(ie);
